@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variant Clinical - Apitoxin Research</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        serif: ['"Noto Serif KR"', 'serif'],
+                    },
+                    colors: {
+                        brand: { DEFAULT: '#cae88d', dark: '#b8d67c', light: '#d4f296' },
+                        sidebar: { bg: '#17252a', text: '#8a9ba0', light: '#ccd6d9' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 1. 배경 */
+        .bg-iso-grid {
+            background-color: #17252a;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='138.56' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 138.56l40-23.09V69.28L40 46.19 0 69.28v46.19zM40 92.37V138.56M0 69.28l40 23.09M80 69.28L40 92.37' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3Cpath d='M0 46.19l40-23.09V0M40 23.1L0 0M80 46.19L40 23.1M80 0v23.1' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+        }
+
+        /* 2. 섹션 전환 — 개선된 애니메이션 */
+        .section-content { display: none; }
+        .section-content.active {
+            display: flex; flex-direction: column; flex: 1; min-height: 0;
+            animation: fadeUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 3. 타이포 가독성 */
+        h1, h2 { letter-spacing: -0.02em; }
+
+        /* 4. info-card */
+        .info-card {
+            background: #f8f9fa; border: 1px solid #f0f0f0; border-radius: 16px;
+            padding: 20px 22px; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .info-card-icon {
+            width: 36px; height: 36px; border-radius: 10px; background: #eef9d0;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .info-label {
+            font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #8baf50; margin-bottom: 4px;
+        }
+        .info-value { font-size: 14px; color: #374151; line-height: 1.6; }
+
+        .tag {
+            display: inline-block; background: #f4fce3; border: 1px solid #cae88d;
+            color: #5a8a2a; font-size: 11px; font-weight: 600;
+            padding: 3px 10px; border-radius: 999px;
+        }
+
+        /* 5. 선택 컴포넌트 */
+        .option-item {
+            display: flex; align-items: center; gap: 12px; padding: 13px 16px;
+            border: 1.5px solid #e5e7eb; border-radius: 13px; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-item:hover { border-color: #b8d67c; background: #f9fdf0; }
+        .option-item.selected { border-color: #cae88d; background: #f4fce3; }
+
+        .opt-circle {
+            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d1d5db;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: border-color .18s, background .18s;
+        }
+        .option-item.selected .opt-circle { border-color: #8baf50; background: #8baf50; }
+        .option-item.selected .opt-circle::after {
+            content: ''; width: 8px; height: 8px; border-radius: 50%; background: white;
+        }
+
+        .opt-box {
+            width: 20px; height: 20px; border-radius: 6px; border: 2px solid #d1d5db;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            font-size: 11px; font-weight: 700; transition: border-color .18s, background .18s, color .18s;
+        }
+        .option-item.selected .opt-box { border-color: #8baf50; background: #8baf50; color: white; }
+
+        /* 6. 입력 필드 */
+        .survey-input {
+            width: 100%; border: 1.5px solid #e5e7eb; border-radius: 13px;
+            padding: 13px 16px; font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px; color: #374151; outline: none; transition: border-color .18s;
+        }
+        .survey-input:focus { border-color: #b8d67c; }
+        .survey-input::placeholder { color: #9ca3af; }
+
+        .survey-textarea {
+            width: 100%; border: 1.5px solid #e5e7eb; border-radius: 13px;
+            padding: 13px 16px; font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px; color: #374151; outline: none; resize: none;
+            transition: border-color .18s; line-height: 1.7;
+        }
+        .survey-textarea:focus { border-color: #b8d67c; }
+        .survey-textarea::placeholder { color: #9ca3af; }
+
+        /* 7. 버튼 */
+        .btn-prev {
+            border: 1.5px solid #e5e7eb; color: #6b7280; background: transparent;
+            padding: 15px 28px; border-radius: 9999px; display: flex; align-items: center; gap: 10px;
+            font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .btn-prev:hover { border-color: #d1d5db; color: #374151; }
+
+        .btn-next {
+            background: #cae88d; color: #17252a; padding: 15px 28px; border-radius: 9999px;
+            display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px;
+            cursor: pointer; border: none; box-shadow: 0 8px 20px -6px rgba(202,232,141,0.6);
+            transition: background .18s;
+        }
+        .btn-next:hover { background: #b8d67c; }
+
+        .btn-outline {
+            border: 1.5px solid #e5e7eb; color: #374151; background: transparent;
+            padding: 13px 22px; border-radius: 9999px; display: flex; align-items: center; gap: 8px;
+            font-weight: 700; font-size: 14px; cursor: pointer; transition: border-color .18s, background .18s;
+        }
+        .btn-outline:hover { border-color: #b8d67c; background: #f9fdf0; }
+
+        .stat-box { background: #f8f9fa; border: 1px solid #f0f0f0; border-radius: 16px; padding: 20px 28px; text-align: center; }
+        .req { color: #8baf50; margin-left: 2px; }
+
+        /* 8. 라디오 레이블 */
+        .radio-label-selected { background-color: #f8f9fa; border-color: #cae88d !important; color: #17252a; font-weight: 700; }
+        .radio-label-selected .radio-circle { border-color: #cae88d; background-color: #cae88d; }
+
+        /* 9. 스크롤바 — 세련되게 */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+
+        /* 10. Q1 스케일 / Q2·Q3 체크 / Q4 버튼 — 통일 */
+        .scale-num-btn {
+            flex: 1; height: 46px;
+            border-radius: 14px !important; border: 2px solid #f3f4f6 !important;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px !important; color: #9ca3af; cursor: pointer; background: white;
+            transition: all 0.2s ease !important;
+        }
+        .scale-num-btn:hover { border-color: #cae88d !important; background-color: #fcfdf7 !important; color: #1a1a1a; }
+        .scale-num-btn.active { border-color: #cae88d !important; background-color: #f4fce3 !important; color: #17252a !important; font-weight: 700 !important; }
+
+        .chk-label {
+            display: flex; align-items: center; gap: 12px; padding: 16px;
+            border-radius: 14px !important; border: 2px solid #f3f4f6 !important;
+            cursor: pointer; transition: all 0.2s ease !important;
+        }
+        .chk-label:hover { border-color: #cae88d !important; background-color: #fcfdf7 !important; }
+        .chk-label.active { border-color: #cae88d !important; background-color: #f4fce3 !important; }
+        .chk-box {
+            width: 20px; height: 20px; border-radius: 5px; border: 2px solid #e5e7eb;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: border-color .18s, background .18s;
+        }
+        .chk-label.active .chk-box { border-color: #cae88d; background: #cae88d; }
+
+        .q4-btn {
+            height: 46px;
+            border-radius: 14px !important; border: 2px solid #f3f4f6 !important;
+            padding: 0 24px; text-align: left; font-size: 14px !important; font-weight: 500;
+            color: #374151; cursor: pointer; background: white;
+            transition: all 0.2s ease !important;
+        }
+        .q4-btn:hover { border-color: #cae88d !important; background-color: #fcfdf7 !important; }
+        .q4-btn.active { border-color: #cae88d !important; background-color: #f4fce3 !important; color: #17252a !important; font-weight: 700 !important; }
+
+        /* 11. 공통 카드 hover — advantage / protocol / 환자군 */
+        .advantage-card {
+            border-radius: 20px !important; border: 1px solid #f0f0f0 !important;
+            transition: all 0.25s ease !important;
+        }
+        .advantage-card:hover {
+            border-color: #cae88d !important; background-color: #ffffff !important;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04) !important; transform: translateY(-2px);
+        }
+        .advantage-card:hover .icon-bg { background-color: #cae88d; transform: scale(1.05); }
+
+        .protocol-card {
+            padding: 24px !important;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            height: 100%; background-color: #fbfcfd;
+            overflow: hidden !important;
+            border-radius: 1.25rem !important; border: 1px solid #f0f0f0 !important;
+            transition: all 0.25s ease !important;
+        }
+        .protocol-card:hover {
+            border-color: #cae88d !important; background-color: #ffffff !important;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.04) !important; transform: translateY(-2px);
+        }
+        .protocol-card .flex.items-center.gap-3.mb-4 {
+            margin-bottom: 18px !important; display: flex !important; align-items: center !important;
+        }
+        .protocol-card .flex.items-center.gap-3.mb-4 > span:first-child {
+            width: 36px !important; height: 36px !important;
+            border-radius: 50% !important; font-size: 14px !important;
+            font-weight: 700 !important; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .protocol-card h3 {
+            font-size: 18.5px !important; font-weight: 700 !important;
+            color: #111 !important; letter-spacing: -0.02em;
+        }
+        .protocol-card p {
+            font-size: 14.5px !important; color: #4b5563 !important;
+            line-height: 1.65 !important; letter-spacing: -0.01em;
+            margin: 0 !important; overflow: hidden !important;
+        }
+        .protocol-card .text-gray-900.font-semibold {
+            color: #111 !important; background-color: #f4fce3;
+            padding: 1px 3px; border-radius: 4px; font-weight: 700;
+        }
+        .protocol-card .text-red-500.font-bold {
+            color: #e11d48 !important; text-decoration: underline; text-underline-offset: 3px;
+        }
+
+        /* 13. 섹션 03 — 적응 환자군 카드 */
+        #section-3 .group.relative {
+            padding: 20px !important;
+            display: flex !important; flex-direction: column !important;
+            justify-content: flex-start !important;
+            transition: all 0.25s ease !important;
+            border-radius: 1rem !important;
+            background-color: #f8f9fa !important;
+            border: 1px solid #f0f0f0 !important;
+        }
+        /* 숫자 뱃지 → sec-2 라벨 스타일로 */
+        #section-3 .w-10.h-10.rounded-2xl {
+            width: auto !important; height: auto !important;
+            border-radius: 0 !important; background: none !important;
+            margin-bottom: 10px !important; border: none !important;
+            font-size: 10px !important; font-weight: 700 !important;
+            color: #cae88d !important; /* 포인트 컬러 단일 통일 */
+            letter-spacing: 0.12em !important; text-transform: uppercase !important;
+            box-shadow: none !important;
+        }
+        /* 우측 라디오 버튼 색상만 조정 */
+        #section-3 .w-5.h-5.rounded-full.border-2 {
+            position: absolute !important; top: 18px !important; right: 18px !important;
+            border-color: #e2e8f0 !important;
+        }
+        #section-3 h3 {
+            font-size: 20px !important; font-weight: 700 !important;
+            color: #1e293b !important; margin-bottom: 8px !important;
+            letter-spacing: -0.02em !important;
+        }
+        #section-3 p:not(.bar-text) {
+            font-size: 16px !important; line-height: 1.65 !important;
+            color: #64748b !important; margin: 0 !important; word-break: keep-all !important;
+        }
+        /* 4색 보더 제거 → 단일 */
+        #section-3 .group.relative:nth-child(1),
+        #section-3 .group.relative:nth-child(2),
+        #section-3 .group.relative:nth-child(3),
+        #section-3 .group.relative:nth-child(4) {
+            border-left: 1px solid #f0f0f0 !important;
+        }
+        /* 첫 번째 카드 — sec-2와 동일 녹색 틴트 */
+        #section-3 .group.relative:nth-child(1) {
+            background-color: #fcfdfa !important;
+            border-color: #edf3e1 !important;
+        }
+        #section-3 .group.relative:nth-child(1) .w-10.h-10.rounded-2xl,
+        #section-3 .group.relative:nth-child(2) .w-10.h-10.rounded-2xl,
+        #section-3 .group.relative:nth-child(3) .w-10.h-10.rounded-2xl,
+        #section-3 .group.relative:nth-child(4) .w-10.h-10.rounded-2xl {
+            background: none !important; color: #b8d67c !important;
+        }
+        #section-3 .group.relative:hover {
+            background-color: #ffffff !important; border-color: #cae88d !important;
+            box-shadow: 0 8px 24px -8px rgba(0,0,0,0.06) !important;
+        }
+
+        /* 14. 섹션 04 — 치료적 우위 카드 */
+        #section-4 .advantage-card {
+            padding: 20px !important;
+            display: flex !important; flex-direction: column !important;
+            justify-content: flex-start !important;
+            background-color: #f8f9fa !important;
+            border-radius: 1rem !important; border: 1px solid #f0f0f0 !important;
+            transition: all 0.25s ease !important;
+        }
+        #section-4 .advantage-card:hover {
+            background-color: #ffffff !important; border-color: #cae88d !important;
+            box-shadow: 0 8px 24px -8px rgba(0,0,0,0.06) !important;
+        }
+        /* 첫 번째 카드 녹색 틴트 */
+        #section-4 .advantage-card:nth-child(1) {
+            background-color: #fcfdfa !important; border-color: #edf3e1 !important;
+        }
+        /* 번호 뱃지 → sec-2 라벨 스타일 */
+        #section-4 .advantage-card .icon-bg,
+        #section-5 .advantage-card .icon-bg {
+            width: auto !important; height: auto !important;
+            border-radius: 0 !important; background: none !important;
+            border: none !important; box-shadow: none !important;
+            font-size: 10px !important; font-weight: 700 !important;
+            color: #b8d67c !important; letter-spacing: 0.12em !important;
+            margin-bottom: 10px !important;
+        }
+        #section-4 .advantage-card .flex.items-start.gap-4,
+        #section-5 .advantage-card .flex.items-start.gap-4 {
+            flex-direction: column !important; gap: 0 !important;
+        }
+        #section-4 .advantage-card h3,
+        #section-5 .advantage-card h3 {
+            font-size: 20px !important; font-weight: 700 !important;
+            color: #1e293b !important; letter-spacing: -0.02em !important;
+            margin-bottom: 8px !important;
+        }
+        #section-4 .advantage-card p,
+        #section-5 .advantage-card p {
+            font-size: 16px !important; line-height: 1.65 !important;
+            color: #64748b !important; margin: 0 !important; word-break: keep-all !important;
+        }
+
+        /* 16-a. 전체 섹션 폰트 통일 (섹션별 !important 우선순위 통합) */
+        #section-1 h1, #section-2 h1, #section-3 h1, #section-4 h1,
+        #section-5 h1, #section-6 h1, #section-7 h1, #section-8 h1, #section-9 h1 {
+            font-size: 30px !important; line-height: 1.35 !important;
+        }
+        /* 섹션 제목(카드 타이틀) h3·h4 */
+        #section-2 h4 { font-size: 20px !important; }
+        #section-6 h3, #section-6 h4 { font-size: 20px !important; }
+        /* 본문 p 전체 */
+        #section-1 p, #section-2 p, #section-6 p, #section-7 p, #section-8 p, #section-9 p {
+            font-size: 16px !important; line-height: 1.7 !important;
+        }
+        /* 섹션 2·6 작은 라벨(UPPERCASE 태그) */
+        #section-2 span.uppercase, #section-6 span.uppercase, #section-6 h4.uppercase {
+            font-size: 13px !important;
+        }
+        /* 섹션 6 수치(시장규모 등) */
+        #section-6 .text-\[18px\] { font-size: 22px !important; }
+        #section-6 .text-\[15px\] { font-size: 17px !important; }
+        #section-6 .text-\[13px\] { font-size: 15px !important; }
+
+        /* 16. 결과 대시보드 */
+        #resultsView { display: none; }
+        #resultsView.active { display: flex; flex: 1; gap: 0; height: 100%; }
+
+        .r-sidebar {
+            width: 240px; flex-shrink: 0; background: #17252a;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            display: flex; flex-direction: column; padding: 32px 24px;
+            overflow-y: auto;
+        }
+        .r-main { flex: 1; overflow-y: auto; padding: 32px; background: #f8f9fa; }
+
+        .r-hlist-btn {
+            width: 100%; text-align: left; padding: 10px 12px;
+            border-radius: 12px; transition: background .15s; cursor: pointer;
+            background: none; border: none;
+        }
+        .r-hlist-btn:hover { background: rgba(255,255,255,0.07); }
+        .r-hlist-btn.r-sel { background: rgba(255,255,255,0.12); }
+
+        .r-stat { background:white; border:1px solid #f0f0f0; border-radius:18px; padding:18px 20px; }
+        .r-card { background:white; border:1px solid #f0f0f0; border-radius:22px; padding:24px; margin-bottom:18px; }
+
+        .r-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+        .r-bar-label { font-size:12px; color:#6b7280; width:100px; flex-shrink:0; text-align:right; }
+        .r-bar-track { flex:1; height:9px; background:#f3f4f6; border-radius:999px; overflow:hidden; }
+        .r-bar-fill { height:100%; background:#cae88d; border-radius:999px; }
+        .r-bar-cnt { font-size:12px; font-weight:700; color:#374151; width:22px; }
+
+        .r-tag { display:inline-block; background:#f4fce3; border:1px solid #cae88d; color:#5a8a2a; font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; margin:2px; }
+        .r-tag-g { background:#f8f9fa; border-color:#e5e7eb; color:#6b7280; }
+    </style>
+</head>
+<body class="w-screen h-screen flex overflow-hidden bg-[#f8f9fa] text-gray-800 font-sans antialiased">
+
+<!-- ══════════════════════ SIDEBAR (완전 동결) ══════════════════════ -->
+<div class="w-[360px] lg:w-[400px] h-full bg-iso-grid flex flex-col justify-between p-12 shrink-0 border-r border-black/10 z-10 relative shadow-[10px_0_30px_rgba(0,0,0,0.15)]">
+    <div>
+        <div class="flex items-center gap-3 mb-[100px]">
+            <div class="w-8 h-8 rounded border border-brand flex items-center justify-center bg-[#17252a]/50 backdrop-blur-sm">
+                <svg class="w-4 h-4 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 3h4M12 3v10M9.5 13L5 20a1 1 0 00.86 1.5h12.28a1 1 0 00.86-1.5l-4.5-7z"></path>
+                </svg>
+            </div>
+            <span class="text-brand text-xs font-bold tracking-[0.2em] uppercase">Variant Clinical</span>
+        </div>
+        <div>
+            <h3 class="text-[10px] text-sidebar-text font-bold tracking-[0.2em] uppercase mb-4">Phase III Protocol</h3>
+            <h1 class="font-serif text-[44px] leading-[1.15] text-white">APITOXIN<br>RESEARCH</h1>
+        </div>
+    </div>
+    <div class="flex flex-col gap-7">
+        <div>
+            <h4 class="text-[9px] text-sidebar-text font-bold tracking-[0.2em] mb-2 uppercase">Protocol Title</h4>
+            <p class="text-[13px] text-sidebar-light leading-snug">차세대 제너릭 의약품 개발을 위한 임상현장 의견수렴 조사</p>
+        </div>
+        <div>
+            <h4 class="text-[9px] text-sidebar-text font-bold tracking-[0.2em] mb-2 uppercase">Subject ID</h4>
+            <p class="text-[13px] text-sidebar-light">VA-8492-KR</p>
+        </div>
+        <div>
+            <h4 class="text-[9px] text-sidebar-text font-bold tracking-[0.2em] mb-2 uppercase">Investigator</h4>
+            <p class="text-[13px] text-sidebar-light">Dr. H.S. Kim</p>
+        </div>
+        <div class="flex items-center gap-2.5 mt-2">
+            <div class="w-2 h-2 rounded-full bg-brand shadow-[0_0_8px_rgba(202,232,141,0.6)]"></div>
+            <span class="text-brand text-[9px] font-bold tracking-[0.2em] uppercase">Secure Session Active</span>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════ MAIN AREA ══════════════════════ -->
+<div class="flex-1 h-full flex items-stretch p-8 lg:p-10 relative overflow-hidden" id="mainArea">
+
+    <!-- WHITE CARD -->
+    <div id="mainCard" class="bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.03)] w-full max-w-[1100px] h-full p-[52px] flex flex-col relative z-10 border border-gray-100 overflow-y-auto mx-auto">
+
+        <!-- CARD HEADER -->
+        <div class="flex justify-between items-start mb-[28px] shrink-0">
+            <div>
+                <p id="sectionLabel" class="text-[13px] text-gray-400 font-bold tracking-[0.2em] uppercase mb-3">Section 01</p>
+                <h2 id="sectionTitle" class="font-serif text-[36px] text-gray-900">메인 타이틀</h2>
+            </div>
+            <div class="flex flex-col items-end">
+                <div class="text-[18px] mb-3">
+                    <span id="pageNum" class="font-bold text-gray-800">01</span>
+                    <span class="text-gray-300 mx-1">/</span>
+                    <span class="text-gray-400 font-medium">09</span>
+                </div>
+                <div id="progressDots" class="flex gap-1.5"></div>
+            </div>
+        </div>
+
+        <!-- ── 1페이지: 메인 타이틀 ── -->
+        <div id="section-1" class="section-content active">
+            <div class="flex-1 max-w-[720px] flex flex-col justify-center min-h-0">
+                <h1 class="font-serif text-[22px] leading-[1.3] text-[#1a1a1a] mb-4 tracking-tight">차세대 제너릭 의약품 개발을 위한<br>임상현장 의견수렴 조사</h1>
+                <div class="space-y-3 text-[14px] text-[#666666] leading-[1.6] mb-3">
+                    <p>본 조사는 아피톡신(APITOXIN) 성분의 차세대 제너릭 의약품 개발을 위해 실제 임상 현장에서 활동하시는 전문의 분들의 소중한 의견을 수렴하고자 기획되었습니다.</p>
+                    <p>응답해주신 소중한 데이터는 연구 및 개발 방향 설정의 핵심 자료로 활용될 예정이며, 철저하게 익명으로 관리됩니다.</p>
+                </div>
+                <div class="inline-flex items-center gap-2.5 bg-[#f8f9fa] px-5 py-3.5 rounded-2xl border border-gray-100">
+                    <svg class="w-4 h-4 text-[#8baf50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-[14px] font-medium text-gray-700">소요 시간: 약 3~5분</span>
+                </div>
+            </div>
+            <!-- Black Bar -->
+            <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                    <p class="text-[13px] text-[#ccd6d9]">차세대 제너릭 개발을 위한 의료진의 소중한 첫걸음입니다.</p>
+                </div>
+                <span class="text-[10px] text-[#8a9ba0] font-bold tracking-widest uppercase">Research Start</span>
+            </div>
+            <div class="mt-auto flex justify-end pt-5">
+                <button class="btn-next" onclick="goNext()">
+                    조사 참여하기
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 2페이지: 제품 소개 ── -->
+        <div id="section-2" class="section-content">
+            <div class="flex-1 flex flex-col min-h-0">
+                <h1 class="font-serif text-[22px] leading-[1.3] text-[#1a1a1a] mb-4 tracking-tight">아피톡신(APITOXIN)의<br>주요 치료 정보</h1>
+                <div class="grid grid-cols-2 gap-3 flex-1" style="grid-template-rows:1fr 1fr auto;">
+
+                    <!-- 01 Therapeutic Area -->
+                    <div class="group relative bg-[#fcfdfa] hover:bg-white border border-[#edf3e1] hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-[#b8d67c]">01</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-[#b8d67c] font-bold tracking-widest uppercase mb-1">Therapeutic Area</span>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">근골격계 질환</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">골관절염 통증 관리</p>
+                    </div>
+
+                    <!-- 02 Active Ingredient -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">02</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase mb-1">Active Ingredient</span>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">정제 밀봉독 추출물 1mg</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">멜리틴 0.4mg 포함</p>
+                    </div>
+
+                    <!-- 03 Pharmacology -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">03</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase mb-1">Pharmacology</span>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">천연 봉독 펩타이드</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">강력한 항염 및 진통 기전</p>
+                    </div>
+
+                    <!-- 04 Formulation -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">04</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase mb-1">Formulation</span>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">생물학적 기원 주사제</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">고순도 정제 제형</p>
+                    </div>
+
+                    <!-- 안내 바 -->
+                    <div class="col-span-2 bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                            <div>
+                                <span class="text-[10px] text-[#8a9ba0] font-bold tracking-widest uppercase block mb-0.5">Classification</span>
+                                <p class="text-[15px] font-bold text-white">비급여 전문처방의약품</p>
+                            </div>
+                        </div>
+                        <div class="px-4 py-1.5 rounded-full border border-[#cae88d]/30 text-[#cae88d] text-[11px] font-bold">
+                            Rx Only
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="text-gray-400 hover:text-gray-600 transition-colors font-bold text-[15px] flex items-center gap-2" onclick="goPrev()">
+                    <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    이전
+                </button>
+                <button class="btn-next" onclick="goNext()">
+                    다음 단계로
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 3페이지: 적응 환자군 ── -->
+        <div id="section-3" class="section-content">
+            <div class="flex-1 flex flex-col min-h-0">
+                <h1 class="font-serif text-[22px] leading-[1.3] text-[#1a1a1a] mb-4 tracking-tight">임상 현장에서 아피톡신 투여가<br>가장 필요하다고 판단되는 환자 유형은 무엇입니까?</h1>
+                <div class="grid grid-cols-2 gap-3 flex-1" style="grid-template-rows:1fr 1fr auto;">
+
+                    <!-- 01 -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 cursor-pointer shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">01</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">관절염 만성환자</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">퇴행성 관절 질환으로 인한 지속적인 통증 및 기능 저하 호소 환자</p>
+                    </div>
+
+                    <!-- 02 -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 cursor-pointer shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">02</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">경구제 한계환자</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">NSAIDs 등 경구용 소염진통제 사용 시 위장관계 부작용 우려 환자</p>
+                    </div>
+
+                    <!-- 03 -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 cursor-pointer shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">03</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">스테로이드 제한환자</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">반복적인 관절내 주사로 인한 연골 손상 및 내성 발생 우려 환자</p>
+                    </div>
+
+                    <!-- 04 -->
+                    <div class="group relative bg-[#f8f9fa] hover:bg-white border border-gray-100 hover:border-[#cae88d]/50 p-4 rounded-xl transition-all duration-300 cursor-pointer shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] flex flex-col">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-2xl bg-white border border-gray-100 flex items-center justify-center group-hover:bg-[#cae88d]/10 transition-colors">
+                                <span class="text-[13px] font-bold text-gray-400 group-hover:text-[#b8d67c]">04</span>
+                            </div>
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-[#cae88d] flex items-center justify-center transition-colors">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#cae88d] scale-0 group-hover:scale-100 transition-transform"></div>
+                            </div>
+                        </div>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">보완치료 선호환자</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">봉독 등 천연 유래 성분 기반 치료법에 대한 수용도가 높은 환자</p>
+                    </div>
+
+                    <!-- 안내 바 -->
+                    <div class="col-span-2 px-5 py-4 rounded-2xl flex items-center justify-between" style="background:#17252a;border:1px solid rgba(202,232,141,0.15);">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                            <p style="font-size:13px;color:#ffffff !important;font-weight:500;">실제 임상 데이터와 가장 부합하는 환자군을 선택해 주십시오.</p>
+                        </div>
+                        <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Clinical Priority</span>
+                    </div>
+
+                </div><!-- /grid -->
+            </div><!-- /flex-1 -->
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="flex items-center gap-2 text-gray-400 hover:text-gray-600 transition-colors font-bold text-[15px]" onclick="goPrev()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    이전 단계
+                </button>
+                <button class="btn-next" onclick="goNext()">
+                    다음 질문으로
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 4페이지: 치료적 우위 ── -->
+        <div id="section-4" class="section-content">
+            <div class="flex-1 flex flex-col min-h-0">
+                <h1 class="font-serif text-[22px] leading-[1.3] text-[#1a1a1a] mb-4 tracking-tight">아피톡신(Apitoxin)의<br>4가지 핵심 치료적 강점</h1>
+                <div class="grid grid-cols-2 gap-3 flex-1" style="grid-template-rows:1fr 1fr;">
+
+                    <!-- 01 독특한 기전 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">01</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">독특한 기전</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">멜리틴(Melittin) 기반의 다중 경로 항염 작용을 통해 기존 소염제와 차별화된 효과를 제공합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 02 환자 순응도 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">02</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">환자 순응도</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">천연물 기원의 약제로 환자들에게 심리적 안전감을 주며, 장기 치료에 대한 거부감을 낮춥니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 03 임상적 유연성 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">03</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">임상적 유연성</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">스테로이드나 NSAIDs 등 기존 치료법과 병용이 가능하여 임상 현장의 처방 옵션을 넓힙니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 04 진료 차별화 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">04</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">진료 차별화</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">특화된 주사요법으로서 타 의료기관과 차별화된 전문성과 경쟁력을 확보할 수 있습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 안내 바 -->
+                    <div class="col-span-2 bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                            <p class="text-[13px] text-white">임상 현장에서 실제 체감하시는 치료적 강점을 기준으로 선택해 주십시오.</p>
+                        </div>
+                        <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Therapeutic Value</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-2 font-bold text-[15px]" onclick="goPrev()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    이전 단계
+                </button>
+                <button class="btn-next" onclick="goNext()">
+                    다음 문항으로
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 5페이지: 시술 프로토콜 ── -->
+        <div id="section-5" class="section-content">
+            <div class="flex-1 flex flex-col min-h-0">
+                <h1 class="font-serif text-[22px] leading-[1.3] text-[#1a1a1a] mb-4 tracking-tight">단계별 시술 가이드라인<br>표준화된 시술 절차</h1>
+                <div class="grid grid-cols-2 gap-3 flex-1" style="grid-template-rows:1fr 1fr;">
+
+                    <!-- 01 사전 검사 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">01</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">사전 검사</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">피내주사(Intradermal) 방식으로 0.05mL를 투여합니다. 투여 후 15-30분간 과민반응 여부를 집중 모니터링합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 02 치료 계획 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">02</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">치료 계획</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">주 2회 간격으로, 총 6주간 12회 시술을 기본으로 합니다. 환자 상태에 따른 점증요법을 적용합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 03 투여 부위 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">03</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">투여 부위</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">통증이 유발되는 관절 주변의 압통점(Trigger Point)을 선별하여 피내주사 방식으로 투여합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 04 안전 수칙 -->
+                    <div class="advantage-card group bg-[#f8f9fa] p-4 rounded-xl border border-gray-100 transition-all duration-300 hover:shadow-md hover:bg-white h-full">
+                        <div class="flex items-start gap-4">
+                            <div class="icon-bg w-10 h-10 shrink-0 bg-white border border-gray-100 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">04</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">안전 수칙</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">혈관 내 직접 투여를 절대 금지합니다. 시술 완료 후 의료기관 내에서 최소 30분 이상 대기하며 경과를 관찰합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 안내 바 -->
+                <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                        <p class="text-[13px] text-white">시술 전 반드시 사전 과민반응 검사를 시행하고 30분간 환자를 관찰하십시오.</p>
+                    </div>
+                    <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Safety Notice</span>
+                </div>
+
+            </div>
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-2 font-bold text-[15px]" onclick="goPrev()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    이전 단계
+                </button>
+                <button class="btn-next" onclick="goNext()">
+                    다음 단계로
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 6페이지: 경쟁 환경 ── -->
+        <div id="section-6" class="section-content">
+            <div class="flex-1 flex flex-col min-h-0">
+                <h3 class="font-serif text-[22px] text-[#1a1a1a] mb-4">경쟁 환경 및 시장 기회 분석</h3>
+
+                <div class="grid grid-cols-2 gap-4 flex-1">
+
+                    <!-- 좌측: 의약품 분석 + 수익성 지표 -->
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-[11px] text-gray-400 font-bold tracking-[0.1em] uppercase mb-3">의약품 분석</h4>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Original</span>
+                                    <p class="text-[15px] font-medium text-gray-900">아피톡신주 <span class="text-[13px] text-gray-500 font-normal">(비씨월드제약)</span></p>
+                                </div>
+                                <div class="p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Competitors</span>
+                                    <p class="text-[15px] font-medium text-gray-900">아피맥스주 / 비비넘주</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-[11px] text-gray-400 font-bold tracking-[0.1em] uppercase mb-3">수익성 지표</h4>
+                            <div class="flex gap-4">
+                                <div class="flex-1 p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Market Size</span>
+                                    <p class="text-[18px] font-bold text-gray-900">연간 약 5억원</p>
+                                </div>
+                                <div class="flex-1 p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Insurance</span>
+                                    <p class="text-[18px] font-bold text-gray-900">비급여</p>
+                                    <p class="text-[13px] text-gray-500">1~20만원</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 우측: Opportunity Factors -->
+                    <div class="bg-[#fcfdfa] border border-[#cae88d]/20 rounded-[2rem] p-5 flex flex-col justify-center">
+                        <h4 class="text-[11px] text-[#b8d67c] font-bold tracking-[0.1em] uppercase mb-5 flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]"></div>
+                            Opportunity Factors
+                        </h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-[#cae88d]/20 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-3.5 h-3.5 text-[#b8d67c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[15px] font-bold text-gray-900">인구 고령화</p>
+                                    <p class="text-[13px] text-gray-500 leading-relaxed">퇴행성 질환 환자군의 지속적 증가</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-[#cae88d]/20 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-3.5 h-3.5 text-[#b8d67c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[15px] font-bold text-gray-900">만성 통증 관리</p>
+                                    <p class="text-[13px] text-gray-500 leading-relaxed">장기 처방 및 관리 효율성 요구 증대</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-6 h-6 rounded-full bg-[#cae88d]/20 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-3.5 h-3.5 text-[#b8d67c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[15px] font-bold text-gray-900">천연물 치료 선호</p>
+                                    <p class="text-[13px] text-gray-500 leading-relaxed">합성 의약품 부작용 우려 환자 선호도</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="text-[14px] text-gray-500 italic bg-gray-50/50 p-4 rounded-xl inline-block">
+                    ※ 위 데이터는 현재 시장 상황을 기반으로 작성되었으며, 임상 현장에서 느끼시는 실질적인 시장 체감도를 다음 문항에서 여쭙고자 합니다.
+                </p>
+            </div>
+
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="px-8 py-4 rounded-full border border-gray-200 text-gray-400 font-bold text-[15px] flex items-center gap-3 hover:bg-gray-50 transition-colors" onclick="goPrev()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    이전으로
+                </button>
+                <button class="btn-next" onclick="goNext()">
+                    확인 및 다음
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 7페이지: 응답자 정보 ── -->
+        <div id="section-7" class="section-content">
+            <div class="flex-1 max-w-[720px] w-full flex flex-col justify-center min-h-0">
+                <div class="space-y-3">
+
+                    <!-- 상단 2컬럼: 기관명 + 성함 -->
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="flex flex-col gap-3">
+                            <label class="text-[13px] font-bold text-gray-900 flex items-center gap-1.5">
+                                소속 의료기관명
+                                <span class="text-red-500 text-[10px]">●</span>
+                            </label>
+                            <input id="inp-hospital" type="text" placeholder="의료기관명을 입력해주세요"
+                                class="w-full bg-[#fcfcfc] border border-gray-200 rounded-xl px-4 py-3 text-[14px] transition-all placeholder:text-gray-300"
+                                style="outline:none;"
+                                onfocus="this.style.borderColor='#cae88d';this.style.boxShadow='0 0 0 4px rgba(202,232,141,0.15)'"
+                                onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none'">
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <label class="text-[13px] font-bold text-gray-900 flex items-center gap-1.5">
+                                응답자 성함
+                                <span class="text-red-500 text-[10px]">●</span>
+                            </label>
+                            <input id="inp-name" type="text" placeholder="성함을 입력해주세요"
+                                class="w-full bg-[#fcfcfc] border border-gray-200 rounded-xl px-4 py-3 text-[14px] transition-all placeholder:text-gray-300"
+                                style="outline:none;"
+                                onfocus="this.style.borderColor='#cae88d';this.style.boxShadow='0 0 0 4px rgba(202,232,141,0.15)'"
+                                onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none'">
+                        </div>
+                    </div>
+
+                    <!-- 진료 전문분야 -->
+                    <div class="flex flex-col gap-5">
+                        <label class="text-[13px] font-bold text-gray-900">진료 전문분야 (선택)</label>
+                        <div class="grid grid-cols-3 gap-2" id="q-dept">
+
+                            <div>
+                                <input type="radio" name="specialty" id="spec1" class="hidden radio-custom">
+                                <label for="spec1" class="flex items-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl cursor-pointer transition-all hover:bg-gray-50 text-[14px] text-gray-600"
+                                    onclick="pickRadioLabel(this,'q-dept')">
+                                    <div class="w-4 h-4 rounded-full border-2 border-gray-200 radio-circle flex items-center justify-center shrink-0">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-white opacity-0"></div>
+                                    </div>
+                                    정형외과
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="specialty" id="spec2" class="hidden radio-custom">
+                                <label for="spec2" class="flex items-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl cursor-pointer transition-all hover:bg-gray-50 text-[14px] text-gray-600"
+                                    onclick="pickRadioLabel(this,'q-dept')">
+                                    <div class="w-4 h-4 rounded-full border-2 border-gray-200 radio-circle flex items-center justify-center shrink-0"></div>
+                                    재활의학과
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="specialty" id="spec3" class="hidden radio-custom">
+                                <label for="spec3" class="flex items-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl cursor-pointer transition-all hover:bg-gray-50 text-[14px] text-gray-600"
+                                    onclick="pickRadioLabel(this,'q-dept')">
+                                    <div class="w-4 h-4 rounded-full border-2 border-gray-200 radio-circle flex items-center justify-center shrink-0"></div>
+                                    마취통증의학과
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="specialty" id="spec4" class="hidden radio-custom">
+                                <label for="spec4" class="flex items-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl cursor-pointer transition-all hover:bg-gray-50 text-[14px] text-gray-600"
+                                    onclick="pickRadioLabel(this,'q-dept')">
+                                    <div class="w-4 h-4 rounded-full border-2 border-gray-200 radio-circle flex items-center justify-center shrink-0"></div>
+                                    류마티스내과
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="specialty" id="spec5" class="hidden radio-custom">
+                                <label for="spec5" class="flex items-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl cursor-pointer transition-all hover:bg-gray-50 text-[14px] text-gray-600"
+                                    onclick="pickRadioLabel(this,'q-dept')">
+                                    <div class="w-4 h-4 rounded-full border-2 border-gray-200 radio-circle flex items-center justify-center shrink-0"></div>
+                                    신경외과
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="specialty" id="spec6" class="hidden radio-custom">
+                                <label for="spec6" class="flex items-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl cursor-pointer transition-all hover:bg-gray-50 text-[14px] text-gray-600"
+                                    onclick="pickRadioLabel(this,'q-dept')">
+                                    <div class="w-4 h-4 rounded-full border-2 border-gray-200 radio-circle flex items-center justify-center shrink-0"></div>
+                                    기타
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-2 font-bold text-[15px]" onclick="goPrev()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    이전 단계
+                </button>
+                <button class="btn-next" onclick="goSection8()">
+                    다음으로
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 8페이지: 설문조사 ── -->
+        <div id="section-8" class="section-content">
+            <!-- 스크롤 콘텐츠 -->
+            <div class="flex-1 overflow-y-auto pr-6 custom-scrollbar min-h-0">
+                <div class="space-y-6 pb-4">
+
+                    <!-- Q1: 5점 스케일 -->
+                    <div class="space-y-3">
+                        <h3 class="text-[14px] font-bold text-gray-900 leading-relaxed flex items-baseline gap-2">
+                            <span class="text-[#b8d67c] font-serif italic text-[15px] shrink-0">Q1.</span>
+                            제너릭 아피톡신 제제가 출시될 경우, 처방에 대한 관심도는 어느 정도입니까?
+                        </h3>
+                        <div class="flex justify-between max-w-[500px] px-2">
+                            <span class="text-[12px] text-gray-400 font-medium">매우 낮음</span>
+                            <span class="text-[12px] text-gray-400 font-medium">매우 높음</span>
+                        </div>
+                        <div class="flex gap-3 max-w-[500px]" id="q1-scale">
+                            <button class="scale-num-btn" onclick="scaleSelect(this,'q1-scale')">1</button>
+                            <button class="scale-num-btn" onclick="scaleSelect(this,'q1-scale')">2</button>
+                            <button class="scale-num-btn" onclick="scaleSelect(this,'q1-scale')">3</button>
+                            <button class="scale-num-btn" onclick="scaleSelect(this,'q1-scale')">4</button>
+                            <button class="scale-num-btn" onclick="scaleSelect(this,'q1-scale')">5</button>
+                        </div>
+                    </div>
+
+                    <!-- Q2: 복수 체크박스 (3열) -->
+                    <div class="space-y-3">
+                        <h3 class="text-[14px] font-bold text-gray-900 leading-relaxed flex items-baseline gap-2">
+                            <span class="text-[#b8d67c] font-serif italic text-[15px] shrink-0">Q2.</span>
+                            처방 고려 시 가장 중요하게 생각하시는 요소는 무엇입니까? (중복 선택 가능)
+                        </h3>
+                        <div class="grid grid-cols-3 gap-2" id="q2-chk">
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">경제성(약가)</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">공급 안정성</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">제조사 신뢰도</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">학술 지원 데이터</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">투여 편의성</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q3: 복수 체크박스 (3열) -->
+                    <div class="space-y-3">
+                        <h3 class="text-[14px] font-bold text-gray-900 leading-relaxed flex items-baseline gap-2">
+                            <span class="text-[#b8d67c] font-serif italic text-[15px] shrink-0">Q3.</span>
+                            도입 시 우려되는 사항이 있다면 무엇입니까? (중복 선택 가능)
+                        </h3>
+                        <div class="grid grid-cols-3 gap-2" id="q3-chk">
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">시술 후 관찰 시간</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">복잡한 투여법</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">알레르기 반응(쇼크)</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">환자 설명의 어려움</span>
+                            </label>
+                            <label class="chk-label" onclick="chkToggle(this)">
+                                <div class="chk-box"><svg class="w-3.5 h-3.5 text-white hidden chk-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span class="text-[14px] font-medium text-gray-800">불확실한 비급여 수가</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q4: 단일 선택 버튼 (2열) -->
+                    <div class="space-y-3">
+                        <h3 class="text-[14px] font-bold text-gray-900 leading-relaxed flex items-baseline gap-2">
+                            <span class="text-[#b8d67c] font-serif italic text-[15px] shrink-0">Q4.</span>
+                            환자 1회 투여 기준 적정 시술비(비급여)는 어느 수준이 적절하다고 보십니까?
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3 max-w-[600px]" id="q4-btn">
+                            <button class="q4-btn" onclick="q4Select(this)">3만원 미만</button>
+                            <button class="q4-btn" onclick="q4Select(this)">3만원 ~ 5만원 미만</button>
+                            <button class="q4-btn" onclick="q4Select(this)">5만원 ~ 7만원 미만</button>
+                            <button class="q4-btn" onclick="q4Select(this)">7만원 이상</button>
+                        </div>
+                    </div>
+
+                    <!-- Q5: 자유기술 -->
+                    <div class="space-y-3">
+                        <h3 class="text-[14px] font-bold text-gray-900 leading-relaxed flex items-baseline gap-2">
+                            <span class="text-[#b8d67c] font-serif italic text-[15px] shrink-0">Q5.</span>
+                            아피톡신 제너릭 개발과 관련하여 추가적인 의견이 있으시다면 기재해 주십시오.
+                        </h3>
+                        <textarea id="q5-text" class="w-full h-32 p-5 rounded-2xl border-2 border-gray-100 focus:border-[#cae88d] focus:outline-none transition-all resize-none text-[15px] placeholder:text-gray-300" placeholder="자유롭게 의견을 남겨주세요."></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 버튼 행 -->
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100 shrink-0">
+                <button class="text-gray-400 hover:text-gray-900 flex items-center gap-2 font-bold text-[15px] transition-colors" onclick="goPrev()">
+                    <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    이전 단계
+                </button>
+                <button class="btn-next" onclick="submit()">
+                    다음 문항으로
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── 9페이지: 조사 완료 ── -->
+        <div id="section-9" class="section-content">
+            <div class="flex-1 max-w-[720px] flex flex-col justify-center min-h-0">
+
+                <!-- 체크 아이콘 -->
+                <div class="mb-4">
+                    <div class="w-16 h-16 rounded-full bg-[#f1f9e2] flex items-center justify-center">
+                        <svg class="w-6 h-6 text-[#8baf50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 감사 메시지 -->
+                <h1 class="font-serif text-[22px] leading-[1.3] text-[#1a1a1a] mb-3 tracking-tight">귀중한 시간을 내어<br>조사에 참여해주셔서 감사합니다</h1>
+                <div class="space-y-3 text-[14px] text-[#666666] leading-[1.6] mb-3">
+                    <p>제공해주신 응답은 철저한 보안 하에 분석되어 차세대 제너릭 의약품 개발의 핵심 지표로 활용될 예정입니다.</p>
+                </div>
+
+                <!-- 통계 행 -->
+                <div class="flex gap-6 border-t border-gray-100 pt-4">
+                    <div>
+                        <p class="text-[11px] text-gray-400 font-bold tracking-[0.15em] uppercase mb-2">총 누적 응답자</p>
+                        <p class="text-[24px] font-serif text-gray-900 font-bold">
+                            <span id="responseCount">0</span>
+                            <span class="text-[14px] font-sans font-medium text-gray-400 ml-1">명</span>
+                        </p>
+                    </div>
+                    <div class="w-px bg-gray-100 h-12"></div>
+                    <div>
+                        <p class="text-[11px] text-gray-400 font-bold tracking-[0.15em] uppercase mb-2">데이터 업데이트</p>
+                        <p class="text-[24px] font-serif text-gray-900 font-bold">
+                            <span id="todayDate"></span>
+                            <span class="text-[14px] font-sans font-medium text-gray-400 ml-1">오늘</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 하단 버튼 행 -->
+            <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
+                <button class="text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-2 font-bold text-[14px]" onclick="exportCSV()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    데이터 보내기 (CSV)
+                </button>
+                <div class="flex gap-4">
+                    <button class="bg-[#f8f9fa] hover:bg-gray-100 transition-colors text-gray-700 px-8 py-4 rounded-full font-bold text-[15px] border border-gray-200" onclick="resetSurvey()">
+                        새로운 조사 시작
+                    </button>
+                    <button class="btn-next" onclick="showResults()">
+                        대시보드로 이동
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /white card -->
+
+    <!-- ══ 결과 대시보드 (같은 메인 영역 안, 토글로 전환) ══ -->
+    <div id="resultsView">
+        <!-- 결과 사이드바 -->
+        <div class="r-sidebar">
+            <div class="mb-7">
+                <p class="text-[9px] text-[#8a9ba0] font-bold tracking-[0.2em] uppercase mb-2">Results Dashboard</p>
+                <h2 class="font-serif text-[22px] text-white leading-tight">APITOXIN<br>RESULTS</h2>
+            </div>
+            <div class="space-y-4 mb-7">
+                <div>
+                    <p class="text-[9px] text-[#8a9ba0] font-bold tracking-[0.1em] uppercase mb-1">총 응답자</p>
+                    <p id="r-total" class="text-[18px] font-bold text-white font-serif">—</p>
+                </div>
+                <div>
+                    <p class="text-[9px] text-[#8a9ba0] font-bold tracking-[0.1em] uppercase mb-1">참여 병원</p>
+                    <p id="r-hosps" class="text-[18px] font-bold text-white font-serif">—</p>
+                </div>
+                <div>
+                    <p class="text-[9px] text-[#8a9ba0] font-bold tracking-[0.1em] uppercase mb-1">평균 관심도</p>
+                    <p id="r-avg" class="text-[18px] font-bold text-white font-serif">—</p>
+                </div>
+            </div>
+
+            <p class="text-[9px] text-[#8a9ba0] font-bold tracking-[0.1em] uppercase mb-2">병원 목록</p>
+            <div id="r-hlist" class="flex-1 space-y-1 mb-6 overflow-y-auto"></div>
+
+            <div class="space-y-2 mt-auto pt-4 border-t border-white/10">
+                <button onclick="showSurvey()"
+                    class="w-full flex items-center justify-center gap-2 border border-white/10 hover:border-white/25 text-[#ccd6d9] hover:text-white font-bold text-[12px] py-2.5 rounded-xl transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    설문 첫 페이지로
+                </button>
+                <button onclick="rExportAll()"
+                    class="w-full flex items-center justify-center gap-2 bg-[#cae88d] hover:bg-[#b8d67c] text-[#17252a] font-bold text-[12px] py-2.5 rounded-xl transition-colors">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    전체 CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- 결과 메인 -->
+        <div class="r-main">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 id="r-title" class="font-serif text-[24px] text-gray-900">전체 결과 요약</h2>
+                    <p id="r-sub" class="text-[13px] text-gray-400 mt-1">병원을 선택하면 상세 결과를 확인합니다</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-[#cae88d] shadow-[0_0_8px_rgba(202,232,141,0.6)]"></div>
+                    <span class="text-[10px] text-[#8baf50] font-bold tracking-[0.15em] uppercase">Live Data</span>
+                </div>
+            </div>
+            <div id="r-main"></div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 right-12 text-[#e5e7eb] text-[10px] font-medium tracking-[1em] uppercase pointer-events-none whitespace-nowrap">
+        초 당 약 공 공 업
+    </div>
+</div>
+
+<script>
+const TOTAL = 9;
+let cur = 1;
+let responses = JSON.parse(localStorage.getItem('apitoxin-responses') || '[]');
+
+const META = {
+    1: { label: 'Section 01', title: '메인 타이틀'   },
+    2: { label: 'Section 02', title: '제품 소개'      },
+    3: { label: 'Section 03', title: '적응 환자군'    },
+    4: { label: 'Section 04', title: '치료적 우위'    },
+    5: { label: 'Section 05', title: '시술 프로토콜'  },
+    6: { label: 'Section 06', title: '경쟁 환경'      },
+    7: { label: 'Section 07', title: '응답자 정보'    },
+    8: { label: 'Section 08', title: '시장성 및 선호도 조사' },
+    9: { label: 'Section 09', title: '조사 완료'      },
+};
+
+function renderDots(n) {
+    document.getElementById('progressDots').innerHTML =
+        Array.from({length: TOTAL}, (_, i) =>
+            `<div class="h-1 w-7 rounded-full transition-colors duration-300 ${i+1===n?'bg-[#b8d67c]':'bg-gray-100'}"></div>`
+        ).join('');
+}
+
+function renderHeader(n) {
+    const m = META[n] || META[9];
+    document.getElementById('sectionLabel').textContent = m.label;
+    document.getElementById('sectionTitle').textContent  = m.title;
+    document.getElementById('pageNum').textContent = String(n).padStart(2,'0');
+    renderDots(n);
+}
+
+function showSection(n) {
+    document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+    const t = document.getElementById('section-'+n);
+    if (t) {
+        t.classList.add('active');
+        t.style.animation = 'none';
+        void t.offsetHeight;
+        t.style.animation = 'fadeUp 0.26s ease forwards';
+    }
+    document.getElementById('mainCard').scrollTop = 0;
+}
+
+function goNext() {
+    if (cur < TOTAL) { cur++; renderHeader(cur); showSection(cur); }
+}
+function goPrev() {
+    if (cur > 1) { cur--; renderHeader(cur); showSection(cur); }
+}
+
+function goSection8() {
+    const h = document.getElementById('inp-hospital').value.trim();
+    const n = document.getElementById('inp-name').value.trim();
+    if (!h || !n) { alert('소속 의료기관명과 성함은 필수 입력 항목입니다.'); return; }
+    goNext();
+}
+
+function submit() {
+    // Section-8 새 UI에서 값 수집
+    function getScaleVal(gid) {
+        const a = document.querySelector(`#${gid} .scale-num-btn.active`);
+        return a ? a.textContent.trim() : '';
+    }
+    function getChkVals(gid) {
+        return [...document.querySelectorAll(`#${gid} .chk-label.active span`)]
+            .map(s => s.textContent.trim()).join(' | ');
+    }
+    function getQ4Val() {
+        const a = document.querySelector('#q4-btn .q4-btn.active');
+        return a ? a.textContent.trim() : '';
+    }
+
+    const entry = {
+        timestamp : new Date().toISOString(),
+        hospital  : document.getElementById('inp-hospital').value.trim(),
+        name      : document.getElementById('inp-name').value.trim(),
+        dept      : getSelected('q-dept'),
+        q1        : getScaleVal('q1-scale'),
+        q2        : getChkVals('q2-chk'),
+        q3        : getChkVals('q3-chk'),
+        q4        : getQ4Val(),
+        q5        : document.getElementById('q5-text').value.trim(),
+    };
+    responses.push(entry);
+    localStorage.setItem('apitoxin-responses', JSON.stringify(responses));
+    cur = 9;
+    renderHeader(9);
+    document.getElementById('progressDots').innerHTML =
+        Array(TOTAL).fill('<div class="h-1 w-7 rounded-full bg-[#b8d67c]"></div>').join('');
+    showSection(9);
+    document.getElementById('responseCount').textContent = responses.length;
+    // 오늘 날짜
+    const d = new Date();
+    document.getElementById('todayDate').textContent =
+        `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// Section-8 인터랙션
+function scaleSelect(btn, groupId) {
+    document.querySelectorAll(`#${groupId} .scale-num-btn`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+function chkToggle(label) {
+    label.classList.toggle('active');
+    const icon = label.querySelector('.chk-icon');
+    if (icon) icon.classList.toggle('hidden', !label.classList.contains('active'));
+}
+function q4Select(btn) {
+    document.querySelectorAll('#q4-btn .q4-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function exportCSV() {
+    if (!responses.length) { alert('저장된 응답 데이터가 없습니다.'); return; }
+    const headers = ['타임스탬프','소속기관','성함','전문분야','Q1 관심도','Q2 고려사항','Q3 우려사항','Q4 시술비','Q5 의견'];
+    const rows = responses.map(r =>
+        [r.timestamp,r.hospital,r.name,r.dept,r.q1,r.q2,r.q3,r.q4,r.q5]
+        .map(v => `"${(v||'').replace(/"/g,'""')}"`)
+    );
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `apitoxin-research-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click(); URL.revokeObjectURL(url);
+}
+
+function resetSurvey() {
+    document.getElementById('inp-hospital').value = '';
+    document.getElementById('inp-name').value = '';
+    document.getElementById('q5-text').value = '';
+    document.querySelectorAll('.option-item.selected').forEach(el => {
+        el.classList.remove('selected');
+        const box = el.querySelector('.opt-box');
+        if (box) box.textContent = '';
+    });
+    cur = 1; renderHeader(1); showSection(1);
+}
+
+function pickRadioLabel(label, groupId) {
+    const container = document.getElementById(groupId);
+    container.querySelectorAll('label').forEach(l => {
+        l.classList.remove('radio-label-selected');
+        const circle = l.querySelector('.radio-circle');
+        if (circle) { circle.style.borderColor = ''; circle.style.backgroundColor = ''; }
+    });
+    label.classList.add('radio-label-selected');
+    const circle = label.querySelector('.radio-circle');
+    if (circle) { circle.style.borderColor = '#cae88d'; circle.style.backgroundColor = '#cae88d'; }
+}
+
+function pick(el, groupId, type) {
+    const c = document.getElementById(groupId);
+    if (type === 'r') {
+        c.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+        el.classList.add('selected');
+    } else {
+        el.classList.toggle('selected');
+        const box = el.querySelector('.opt-box');
+        if (box) box.textContent = el.classList.contains('selected') ? '✓' : '';
+    }
+}
+
+function getSelected(gid) {
+    // option-item 방식
+    const s = document.querySelector(`#${gid} .option-item.selected span`);
+    if (s) return s.textContent.trim();
+    // radio-label 방식 (section-7 전문분야)
+    const rl = document.querySelector(`#${gid} .radio-label-selected`);
+    if (rl) return rl.textContent.trim();
+    return '';
+}
+function getMultiSelected(gid) {
+    return [...document.querySelectorAll(`#${gid} .option-item.selected span`)]
+        .map(s => s.textContent.trim()).join(' | ');
+}
+
+renderDots(1);
+showSection(1);
+
+// ══ 결과 대시보드 JS ══════════════════════════════════
+
+let rCurHosp = null;
+
+function showResults() {
+    responses = [];
+    try { responses = JSON.parse(localStorage.getItem('apitoxin-responses') || '[]'); } catch(e) {}
+    document.getElementById('mainCard').style.display = 'none';
+    document.getElementById('mainArea').style.padding = '0';
+    document.getElementById('mainArea').style.alignItems = 'stretch';
+    document.getElementById('mainArea').style.overflow = 'hidden';
+    const rv = document.getElementById('resultsView');
+    rv.style.display = 'flex';
+    rv.style.flex = '1';
+    rv.style.height = '100%';
+    rCurHosp = null;
+    rUpdateSidebar();
+    rShowOverview();
+}
+
+function showSurvey() {
+    document.getElementById('mainCard').style.display = 'flex';
+    document.getElementById('resultsView').style.display = 'none';
+    document.getElementById('mainArea').style.padding = '';
+    document.getElementById('mainArea').style.alignItems = '';
+    document.getElementById('mainArea').style.overflow = '';
+    cur = 1; renderHeader(1); showSection(1);
+}
+
+function rGroupBy() {
+    const map = {};
+    responses.forEach(r => {
+        const h = r.hospital || '병원명 미입력';
+        if (!map[h]) map[h] = [];
+        map[h].push(r);
+    });
+    return map;
+}
+
+function rUpdateSidebar() {
+    const grp = rGroupBy();
+    document.getElementById('r-total').textContent = responses.length + '명';
+    document.getElementById('r-hosps').textContent = Object.keys(grp).length + '개소';
+    const vals = responses.map(r => parseInt(r.q1)).filter(v => v >= 1 && v <= 5);
+    document.getElementById('r-avg').textContent = vals.length
+        ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) + ' / 5' : '—';
+
+    const hlist = document.getElementById('r-hlist');
+    if (!Object.keys(grp).length) {
+        hlist.innerHTML = '<p style="font-size:12px;color:#8a9ba0;padding:8px 0;">응답 없음</p>';
+        return;
+    }
+    hlist.innerHTML = Object.keys(grp).map(h =>
+        `<button class="r-hlist-btn ${rCurHosp===h?'r-sel':''}" onclick="rShowHosp('${h.replace(/'/g,"\\'")}')">
+            <p style="font-size:13px;font-weight:700;color:#ccd6d9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h}</p>
+            <p style="font-size:11px;color:#8a9ba0;">${grp[h].length}명</p>
+        </button>`
+    ).join('');
+}
+
+function rShowOverview() {
+    rCurHosp = null;
+    document.getElementById('r-title').textContent = '전체 결과 요약';
+    document.getElementById('r-sub').textContent = '병원을 선택하면 상세 결과를 확인합니다';
+    rUpdateSidebar();
+
+    if (!responses.length) {
+        document.getElementById('r-main').innerHTML =
+            '<div style="text-align:center;padding:60px 0;color:#9ca3af;">' +
+            '<p style="font-size:16px;font-weight:700;margin-bottom:8px;">아직 응답 데이터가 없습니다</p>' +
+            '<p style="font-size:13px;">설문을 완료하면 여기에 결과가 나타납니다</p></div>';
+        return;
+    }
+
+    const grp = rGroupBy();
+    let html = '';
+
+    // 요약 카드
+    html += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;">
+        ${rStatCard('총 응답자', responses.length + '명')}
+        ${rStatCard('참여 병원', Object.keys(grp).length + '개소')}
+        ${rStatCard('평균 관심도', document.getElementById('r-avg').textContent)}
+    </div>`;
+
+    html += rQ1Card(responses) + rQ2Q3Card(responses) + rQ4Card(responses);
+
+    // 병원 목록
+    html += `<div class="r-card"><h3 style="font-size:16px;font-weight:700;color:#111;margin-bottom:18px;">병원별 응답 현황</h3>
+        <div style="divide-y:1px solid #f3f4f6;">
+        ${Object.keys(grp).map(h => `
+            <div onclick="rShowHosp('${h.replace(/'/g,"\\'")}'))" style="padding:14px 0;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border-bottom:1px solid #f9fafb;">
+                <div>
+                    <p style="font-size:15px;font-weight:700;color:#111;">${h}</p>
+                    <p style="font-size:12px;color:#9ca3af;margin-top:2px;">${grp[h].map(r=>r.name||'익명').join(', ')}</p>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:#8baf50;">${grp[h].length}명 →</span>
+            </div>`).join('')}
+        </div></div>`;
+
+    document.getElementById('r-main').innerHTML = html;
+}
+
+function rShowHosp(name) {
+    rCurHosp = name;
+    const rows = (rGroupBy()[name] || []);
+    document.getElementById('r-title').textContent = name;
+    document.getElementById('r-sub').textContent = `응답자 ${rows.length}명 · VA-8492-KR`;
+    rUpdateSidebar();
+
+    const vals = rows.map(r => parseInt(r.q1)).filter(v=>v>=1&&v<=5);
+    const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+
+    let html = `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;">
+        ${rStatCard('응답자 수', rows.length + '명')}
+        ${rStatCard('평균 관심도', avg + ' / 5')}
+        ${rStatCard('최다 우려', rTopQ3(rows))}
+    </div>`;
+
+    html += rQ1Card(rows) + rQ2Q3Card(rows) + rQ4Card(rows);
+
+    // 응답자 테이블
+    html += `<div class="r-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <h3 style="font-size:16px;font-weight:700;color:#111;">응답자 목록</h3>
+            <button onclick="rExportHosp('${name.replace(/'/g,"\\'")}'))" style="font-size:12px;font-weight:700;color:#8baf50;background:none;border:none;cursor:pointer;">CSV 내보내기</button>
+        </div>
+        <div>${rows.map(r => {
+            let dateStr = '';
+            try { const d=new Date(r.timestamp); dateStr=d.getFullYear()+'.'+rP2(d.getMonth()+1)+'.'+rP2(d.getDate()); } catch(e){}
+            let tags = r.q1 ? `<span class="r-tag">관심도 ${r.q1}점</span>` : '';
+            tags += r.q4 ? `<span class="r-tag">${r.q4}</span>` : '';
+            tags += r.q5 ? `<span class="r-tag r-tag-g">💬 의견</span>` : '';
+            const q5html = r.q5 ? `<p style="font-size:13px;color:#6b7280;margin-top:8px;background:#f8f9fa;border-radius:12px;padding:10px 14px;">"${r.q5}"</p>` : '';
+            return `<div style="padding:14px 0;border-bottom:1px solid #f9fafb;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <span style="font-size:15px;font-weight:700;color:#111;">${r.name||'익명'}<span style="font-size:12px;color:#9ca3af;font-weight:400;margin-left:8px;">${r.dept||''}</span></span>
+                    <span style="font-size:12px;color:#9ca3af;">${dateStr}</span>
+                </div>
+                <div>${tags}</div>${q5html}
+            </div>`;
+        }).join('')}</div>
+    </div>`;
+
+    document.getElementById('r-main').innerHTML = html;
+}
+
+// 차트 헬퍼
+function rStatCard(label, val) {
+    return `<div class="r-stat"><p style="font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">${label}</p><p style="font-size:20px;font-weight:700;color:#111;font-family:'Noto Serif KR',serif;">${val}</p></div>`;
+}
+
+function rQ1Card(rows) {
+    const counts = {1:0,2:0,3:0,4:0,5:0};
+    rows.forEach(r => { const v=parseInt(r.q1); if(v>=1&&v<=5) counts[v]++; });
+    const max = Math.max(...Object.values(counts), 1);
+    const bars = Object.keys(counts).map(s =>
+        `<div class="r-bar-row"><span class="r-bar-label">${s}점</span><div class="r-bar-track"><div class="r-bar-fill" style="width:${Math.round(counts[s]/max*100)}%"></div></div><span class="r-bar-cnt">${counts[s]}</span></div>`
+    ).join('');
+    return `<div class="r-card"><p style="font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">Q1</p><h3 style="font-size:16px;font-weight:700;color:#111;margin-bottom:16px;">처방 관심도 (1~5점)</h3>${bars}</div>`;
+}
+
+function rQ2Q3Card(rows) {
+    return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <div class="r-card" style="margin-bottom:0;"><p style="font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">Q2</p><h3 style="font-size:15px;font-weight:700;color:#111;margin-bottom:14px;">최우선 고려사항</h3>${rMultiBar(rows,'q2')}</div>
+        <div class="r-card" style="margin-bottom:0;"><p style="font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">Q3</p><h3 style="font-size:15px;font-weight:700;color:#111;margin-bottom:14px;">도입 우려사항</h3>${rMultiBar(rows,'q3')}</div>
+    </div>`;
+}
+
+function rQ4Card(rows) {
+    const counts = {};
+    rows.forEach(r => { if(r.q4) counts[r.q4]=(counts[r.q4]||0)+1; });
+    const keys = Object.keys(counts);
+    if (!keys.length) return `<div class="r-card"><p style="font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">Q4</p><h3 style="font-size:16px;font-weight:700;color:#111;margin-bottom:16px;">적정 시술비 선호</h3><p style="color:#d1d5db;font-size:13px;">응답 없음</p></div>`;
+    const max = Math.max(...keys.map(k=>counts[k]), 1);
+    const bars = keys.sort((a,b)=>counts[b]-counts[a]).map(label =>
+        `<div class="r-bar-row"><span class="r-bar-label">${label}</span><div class="r-bar-track"><div class="r-bar-fill" style="width:${Math.round(counts[label]/max*100)}%"></div></div><span class="r-bar-cnt">${counts[label]}</span></div>`
+    ).join('');
+    return `<div class="r-card"><p style="font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">Q4</p><h3 style="font-size:16px;font-weight:700;color:#111;margin-bottom:16px;">적정 시술비 선호</h3>${bars}</div>`;
+}
+
+function rMultiBar(rows, field) {
+    const counts = {};
+    rows.forEach(r => {
+        if(!r[field]) return;
+        r[field].split(' | ').forEach(v => { v=v.trim(); if(v) counts[v]=(counts[v]||0)+1; });
+    });
+    const keys = Object.keys(counts);
+    if (!keys.length) return '<p style="color:#d1d5db;font-size:13px;">응답 없음</p>';
+    const max = Math.max(...keys.map(k=>counts[k]), 1);
+    return keys.sort((a,b)=>counts[b]-counts[a]).map(label =>
+        `<div class="r-bar-row"><span class="r-bar-label">${label}</span><div class="r-bar-track"><div class="r-bar-fill" style="width:${Math.round(counts[label]/max*100)}%"></div></div><span class="r-bar-cnt">${counts[label]}</span></div>`
+    ).join('');
+}
+
+function rTopQ3(rows) {
+    const counts = {};
+    rows.forEach(r => {
+        if(!r.q3) return;
+        r.q3.split(' | ').forEach(v => { v=v.trim(); if(v) counts[v]=(counts[v]||0)+1; });
+    });
+    const keys = Object.keys(counts);
+    return keys.length ? keys.sort((a,b)=>counts[b]-counts[a])[0] : '—';
+}
+
+function rP2(n) { return ('0'+n).slice(-2); }
+
+function rExportAll() {
+    if (!responses.length) { alert('데이터가 없습니다.'); return; }
+    rDlCSV(responses, 'apitoxin-all.csv');
+}
+function rExportHosp(name) {
+    const rows = (rGroupBy()[name] || []);
+    if (!rows.length) return;
+    rDlCSV(rows, 'apitoxin-' + name + '.csv');
+}
+function rDlCSV(rows, filename) {
+    const headers = ['타임스탬프','소속기관','성함','전문분야','Q1 관심도','Q2 고려사항','Q3 우려사항','Q4 시술비','Q5 의견'];
+    const body = rows.map(r =>
+        [r.timestamp,r.hospital,r.name,r.dept,r.q1,r.q2,r.q3,r.q4,r.q5]
+        .map(v => `"${(v||'').replace(/"/g,'""')}"`)
+    );
+    const csv = [headers.join(','), ...body.map(r=>r.join(','))].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+}
+</script>
+</body>
+</html>
