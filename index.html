@@ -256,7 +256,7 @@
             border-radius: 0 !important; background: none !important;
             margin-bottom: 10px !important; border: none !important;
             font-size: 10px !important; font-weight: 700 !important;
-            color: #cae88d !important; /* 포인트 컬러 단일 통일 */
+            color: #8baf50 !important;
             letter-spacing: 0.12em !important; text-transform: uppercase !important;
             box-shadow: none !important;
         }
@@ -268,13 +268,18 @@
         #section-2 h3,
         #section-3 h3 {
             font-size: 20px !important; font-weight: 700 !important;
-            color: #1e293b !important; margin-bottom: 8px !important;
+            color: #111827 !important; margin-bottom: 8px !important;
             letter-spacing: -0.02em !important;
         }
         #section-2 p:not(.bar-text),
         #section-3 p:not(.bar-text) {
             font-size: 16px !important; line-height: 1.65 !important;
-            color: #64748b !important; margin: 0 !important; word-break: keep-all !important;
+            color: #6b7280 !important; margin: 0 !important; word-break: keep-all !important;
+        }
+        #section-2 .bar-text,
+        #section-3 .bar-text {
+            font-size: 13px !important; color: #ffffff !important;
+            line-height: 1.5 !important; margin: 0 !important;
         }
         /* 4색 보더 제거 → 단일 */
         #section-3 .group.relative:nth-child(1),
@@ -476,9 +481,9 @@
             <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-6">
                 <div class="flex items-center gap-3">
                     <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
-                    <p class="text-[13px] text-[#ccd6d9]">차세대 제너릭 개발을 위한 의료진의 소중한 첫걸음입니다.</p>
+                    <p class="text-[13px] text-white">차세대 제너릭 개발을 위한 의료진의 소중한 첫걸음입니다.</p>
                 </div>
-                <span class="text-[10px] text-[#8a9ba0] font-bold tracking-widest uppercase">Research Start</span>
+                <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Research Start</span>
             </div>
             <div class="mt-auto flex justify-end pt-5">
                 <button class="btn-next" onclick="goNext()">
@@ -514,7 +519,7 @@
                             </div>
                             
                         </div>
-                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">정제 밀봉독 추출물 1mg</h3>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">건조밀봉독 1mg</h3>
                         <p class="text-[14px] text-gray-500 leading-relaxed">멜리틴 0.4mg 포함</p>
                     </div>
 
@@ -538,7 +543,7 @@
                             </div>
                             
                         </div>
-                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">생물학적 기원 주사제</h3>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">한약(생약)제제</h3>
                         <p class="text-[14px] text-gray-500 leading-relaxed">고순도 정제 제형</p>
                     </div>
 
@@ -549,14 +554,9 @@
             <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-3 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
-                    <div>
-                        <span class="text-[10px] text-[#8a9ba0] font-bold tracking-widest uppercase block mb-0.5">Classification</span>
-                        <p class="text-[15px] font-bold text-white">비급여 전문처방의약품</p>
-                    </div>
+                    <p class="text-[13px] text-white bar-text">비급여 전문의약품으로, 의사 처방 하에만 사용 가능합니다.</p>
                 </div>
-                <div class="px-4 py-1.5 rounded-full border border-[#cae88d]/30 text-[#cae88d] text-[11px] font-bold">
-                    Rx Only
-                </div>
+                <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Classification</span>
             </div>
             <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
                 <button class="text-gray-400 hover:text-gray-600 transition-colors font-bold text-[15px] flex items-center gap-2" onclick="goPrev()">
@@ -584,8 +584,8 @@
                             </div>
                             
                         </div>
-                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">관절염 만성환자</h3>
-                        <p class="text-[14px] text-gray-500 leading-relaxed">퇴행성 관절 질환으로 인한 지속적인 통증 및 기능 저하 호소 환자</p>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">고령 OA 환자</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">만성통증, 관절염으로 반복 치료가 필요한 환자</p>
                     </div>
 
                     <!-- 02 -->
@@ -596,8 +596,8 @@
                             </div>
                             
                         </div>
-                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">경구제 한계환자</h3>
-                        <p class="text-[14px] text-gray-500 leading-relaxed">NSAIDs 등 경구용 소염진통제 사용 시 위장관계 부작용 우려 환자</p>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">Target 진료과</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">정형외과, 재활의학과, 통증클리닉(마취통증의학과), 류마티스내과</p>
                     </div>
 
                     <!-- 03 -->
@@ -609,7 +609,7 @@
                             
                         </div>
                         <h3 class="text-[17px] font-bold text-gray-900 mb-2">스테로이드 제한환자</h3>
-                        <p class="text-[14px] text-gray-500 leading-relaxed">반복적인 관절내 주사로 인한 연골 손상 및 내성 발생 우려 환자</p>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">NSAIDs, 스테로이드 주사 부작용으로 대안 치료가 필요한 환자</p>
                     </div>
 
                     <!-- 04 -->
@@ -620,18 +620,18 @@
                             </div>
                             
                         </div>
-                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">보완치료 선호환자</h3>
-                        <p class="text-[14px] text-gray-500 leading-relaxed">봉독 등 천연 유래 성분 기반 치료법에 대한 수용도가 높은 환자</p>
+                        <h3 class="text-[17px] font-bold text-gray-900 mb-2">주사 치료 선호환자</h3>
+                        <p class="text-[14px] text-gray-500 leading-relaxed">효능에 만족한 환자는 재방문율이 높아 지속 처방이 가능한 환자</p>
                     </div>
 
                 </div><!-- /grid -->
             </div><!-- /flex-1 -->
 
             <!-- 안내 바 (flex-1 밖 고정) -->
-            <div class="px-5 py-4 rounded-2xl flex items-center justify-between mt-3 shrink-0" style="background:#17252a;border:1px solid rgba(202,232,141,0.15);">
+            <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-3 shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
-                    <p style="font-size:13px;color:#ffffff;font-weight:500;">실제 임상 데이터와 가장 부합하는 환자군을 선택해 주십시오.</p>
+                    <p class="text-[13px] text-white bar-text">제너릭 개발 방향 수립을 위한 주요 환자군 참고 정보입니다.</p>
                 </div>
                 <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Clinical Priority</span>
             </div>
@@ -661,7 +661,7 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">독특한 기전</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">멜리틴(Melittin) 기반의 다중 경로 항염 작용을 통해 기존 소염제와 차별화된 효과를 제공합니다.</p>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">멜리틴(Melittin), 펩타이드401, 아돌라핀 복합성분 기반의 항염증 및 진통 작용으로 기존 소염제와 차별화된 효과를 제공합니다.</p>
                             </div>
                         </div>
                     </div>
@@ -673,8 +673,8 @@
                                 <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">02</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">환자 순응도</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">천연물 기원의 약제로 환자들에게 심리적 안전감을 주며, 장기 치료에 대한 거부감을 낮춥니다.</p>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">천연물 기반 약효</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">봉독 유래 천연물 기반 약효발현으로 합성 의약품 부작용 우려 환자에게 수용도가 높습니다.</p>
                             </div>
                         </div>
                     </div>
@@ -686,8 +686,8 @@
                                 <span class="text-[14px] font-bold text-gray-400 group-hover:text-[#17252a]">03</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">임상적 유연성</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">스테로이드나 NSAIDs 등 기존 치료법과 병용이 가능하여 임상 현장의 처방 옵션을 넓힙니다.</p>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">치료 대안</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">NSAIDs와 기전이 다른 치료 옵션으로, NSAIDs·스테로이드 부작용 환자에게 유효한 대안이 됩니다.</p>
                             </div>
                         </div>
                     </div>
@@ -700,22 +700,22 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">진료 차별화</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">특화된 주사요법으로서 타 의료기관과 차별화된 전문성과 경쟁력을 확보할 수 있습니다.</p>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">주사 치료 기반의 시술형 통증 치료로 병의원 수익 모델화가 가능합니다.</p>
                             </div>
                         </div>
                     </div>
 
 
                     <!-- 안내 바 -->
-                    <div class="col-span-2 bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
-                            <p class="text-[13px] text-white">임상 현장에서 실제 체감하시는 치료적 강점을 기준으로 선택해 주십시오.</p>
-                        </div>
-                        <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Therapeutic Value</span>
-                    </div>
-
                 </div>
+            </div>
+            <!-- 안내 바 (flex-1 밖 고정) -->
+            <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-3 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                    <p class="text-[13px] text-white">아피톡신주의 핵심 치료적 강점을 참고해 주십시오.</p>
+                </div>
+                <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Therapeutic Value</span>
             </div>
             <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
                 <button class="text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-2 font-bold text-[15px]" onclick="goPrev()">
@@ -742,8 +742,8 @@
                                 <span class="text-[14px] font-bold text-[#b8d67c]">01</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">사전 검사</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">피내주사(Intradermal) 방식으로 0.05mL를 투여합니다. 투여 후 15-30분간 과민반응 여부를 집중 모니터링합니다.</p>
+                                <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">피부반응시험</h3>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">팔뚝 굴근표면에 0.05mL를 피내주사 후 15-30분간 전신반응 여부를 확인합니다. 음성 판정 시에만 본 투여를 진행합니다.</p>
                             </div>
                         </div>
                     </div>
@@ -769,7 +769,7 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">투여 부위</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">통증이 유발되는 관절 주변의 압통점(Trigger Point)을 선별하여 피내주사 방식으로 투여합니다.</p>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">통증 부위 또는 통증유발점에 0.1mL씩 피내주사합니다. 혈관 부위 주사는 절대 금지합니다.</p>
                             </div>
                         </div>
                     </div>
@@ -782,7 +782,7 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-[17px] text-gray-900 mb-1.5">안전 수칙</h3>
-                                <p class="text-[14px] text-gray-500 leading-relaxed">혈관 내 직접 투여를 절대 금지합니다. 시술 완료 후 의료기관 내에서 최소 30분 이상 대기하며 경과를 관찰합니다.</p>
+                                <p class="text-[14px] text-gray-500 leading-relaxed">혈관 내 직접 투여 절대 금지. 피부반응시험 후 15-30분, 투여 후에도 전신 알레르기 반응(아나필락시스 등) 여부를 관찰합니다.</p>
                             </div>
                         </div>
                     </div>
@@ -823,29 +823,31 @@
                         <h4 class="text-[11px] text-gray-400 font-bold tracking-[0.1em] uppercase">의약품 분석</h4>
                         <div class="p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100 flex-1">
                             <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Original</span>
-                            <p class="text-[15px] font-medium text-gray-900">아피톡신주 <span class="text-[13px] text-gray-500 font-normal">(비씨월드제약)</span></p>
+                            <p class="text-[15px] font-medium text-gray-900">아피톡신주 <span class="text-[13px] text-gray-500 font-normal">((주)비씨월드제약)</span></p>
                         </div>
                         <div class="p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100 flex-1">
                             <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Competitors</span>
-                            <p class="text-[15px] font-medium text-gray-900">아피맥스주 / 비비넘주</p>
+                            <p class="text-[14px] font-medium text-gray-900">아피맥스주 <span class="text-[12px] text-gray-500 font-normal">(구주제약)</span></p>
+                            <p class="text-[14px] font-medium text-gray-900 mt-1">비비넘주 <span class="text-[12px] text-gray-500 font-normal">(유니메드제약)</span></p>
                         </div>
                         <h4 class="text-[11px] text-gray-400 font-bold tracking-[0.1em] uppercase mt-2">수익성 지표</h4>
                         <div class="p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100 flex-1">
                             <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Market Size</span>
-                            <p class="text-[18px] font-bold text-gray-900">연간 약 5억원</p>
+                            <p class="text-[18px] font-bold text-gray-900">약 4.7억원</p>
+                            <p class="text-[12px] text-gray-500">2024년 생산 실적 기준</p>
                         </div>
                         <div class="p-4 bg-[#f8f9fa] rounded-2xl border border-gray-100 flex-1">
                             <span class="text-[10px] font-bold text-gray-400 uppercase block mb-1">Insurance</span>
                             <p class="text-[18px] font-bold text-gray-900">비급여</p>
-                            <p class="text-[13px] text-gray-500">1~20만원</p>
+                            <p class="text-[13px] text-gray-500">1.5만원~20만원 (기관별 편차)</p>
                         </div>
                     </div>
 
-                    <!-- 2·3칸: Opportunity Factors -->
+                    <!-- 2·3칸: Market Barriers -->
                     <div class="col-span-2 bg-[#fcfdfa] border border-[#cae88d]/20 rounded-[2rem] p-5 flex flex-col justify-start">
                         <h4 class="text-[11px] text-[#b8d67c] font-bold tracking-[0.1em] uppercase mb-5 flex items-center gap-2">
                             <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]"></div>
-                            Opportunity Factors
+                            Market Barriers
                         </h4>
                         <ul class="space-y-3">
                             <li class="flex items-start gap-4">
@@ -853,8 +855,8 @@
                                     <svg class="w-3.5 h-3.5 text-[#b8d67c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
                                 </div>
                                 <div>
-                                    <p class="text-[15px] font-bold text-gray-900">인구 고령화</p>
-                                    <p class="text-[13px] text-gray-500 leading-relaxed">퇴행성 질환 환자군의 지속적 증가</p>
+                                    <p class="text-[15px] font-bold text-gray-900">안전성 관리 처방 장벽</p>
+                                    <p class="text-[13px] text-gray-500 leading-relaxed">피부반응시험, 점증 투여, 주사 후 관찰 필요로 일반 외래 처방 시 번거로움</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
@@ -862,8 +864,8 @@
                                     <svg class="w-3.5 h-3.5 text-[#b8d67c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
                                 </div>
                                 <div>
-                                    <p class="text-[15px] font-bold text-gray-900">만성 통증 관리</p>
-                                    <p class="text-[13px] text-gray-500 leading-relaxed">장기 처방 및 관리 효율성 요구 증대</p>
+                                    <p class="text-[15px] font-bold text-gray-900">비급여 양면성</p>
+                                    <p class="text-[13px] text-gray-500 leading-relaxed">의원급: 수익 모델화 가능 / 종합병원급: 환자 부담으로 단점</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
@@ -871,8 +873,8 @@
                                     <svg class="w-3.5 h-3.5 text-[#b8d67c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
                                 </div>
                                 <div>
-                                    <p class="text-[15px] font-bold text-gray-900">천연물 치료 선호</p>
-                                    <p class="text-[13px] text-gray-500 leading-relaxed">합성 의약품 부작용 우려 환자 선호도</p>
+                                    <p class="text-[15px] font-bold text-gray-900">학술 근거 및 가이드라인 부족</p>
+                                    <p class="text-[13px] text-gray-500 leading-relaxed">의료진 교육 및 시술 프로토콜 표준화 필요</p>
                                 </div>
                             </li>
                         </ul>
@@ -880,7 +882,7 @@
                 </div>
 
                 <p class="text-[14px] text-gray-500 italic bg-gray-50/50 p-4 rounded-xl inline-block">
-                    ※ 위 데이터는 현재 시장 상황을 기반으로 작성되었으며, 임상 현장에서 느끼시는 실질적인 시장 체감도를 다음 문항에서 여쭙고자 합니다.
+                    ※ 정형외과·재활의학과·통증클리닉 의원급에서 실사용이 확대되고 있으며, 병원급별 시장성 및 의료진 수용성 조사가 필요합니다.
                 </p>
             </div>
 
@@ -1323,7 +1325,7 @@ function submit() {
     }
 
     const entry = {
-        timestamp : new Date().toISOString(),
+        timestamp : editingTimestamp || new Date().toISOString(),
         hospital  : document.getElementById('inp-hospital').value.trim(),
         name      : document.getElementById('inp-name').value.trim(),
         dept      : getSelected('q-dept'),
@@ -1333,18 +1335,30 @@ function submit() {
         q4        : getQ4Val(),
         q5        : document.getElementById('q5-text').value.trim(),
     };
-    responses.push(entry);
+
+    const wasEditing = !!editingTimestamp;
+    if (editingTimestamp) {
+        const idx = responses.findIndex(r => r.timestamp === editingTimestamp);
+        if (idx !== -1) responses[idx] = entry;
+        editingTimestamp = null;
+    } else {
+        responses.push(entry);
+    }
     localStorage.setItem('apitoxin-responses', JSON.stringify(responses));
-    cur = 9;
-    renderHeader(9);
-    document.getElementById('progressDots').innerHTML =
-        Array(TOTAL).fill('<div class="h-1 w-7 rounded-full bg-[#b8d67c]"></div>').join('');
-    showSection(9);
-    document.getElementById('responseCount').textContent = responses.length;
-    // 오늘 날짜
-    const d = new Date();
-    document.getElementById('todayDate').textContent =
-        `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+
+    if (wasEditing) {
+        showResults();
+    } else {
+        cur = 9;
+        renderHeader(9);
+        document.getElementById('progressDots').innerHTML =
+            Array(TOTAL).fill('<div class="h-1 w-7 rounded-full bg-[#b8d67c]"></div>').join('');
+        showSection(9);
+        document.getElementById('responseCount').textContent = responses.length;
+        const d = new Date();
+        document.getElementById('todayDate').textContent =
+            `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+    }
 }
 
 // Section-8 인터랙션
@@ -1377,11 +1391,29 @@ function resetSurvey() {
     document.getElementById('inp-hospital').value = '';
     document.getElementById('inp-name').value = '';
     document.getElementById('q5-text').value = '';
+    // 기존 option-item 방식
     document.querySelectorAll('.option-item.selected').forEach(el => {
         el.classList.remove('selected');
         const box = el.querySelector('.opt-box');
         if (box) box.textContent = '';
     });
+    // Section-7 전문분야 라디오 초기화
+    document.querySelectorAll('.radio-label-selected').forEach(el => {
+        el.classList.remove('radio-label-selected');
+        const circle = el.querySelector('.radio-circle');
+        if (circle) { circle.style.borderColor = ''; circle.style.backgroundColor = ''; }
+    });
+    // Section-8 Q1 스케일 초기화
+    document.querySelectorAll('.scale-num-btn.active').forEach(el => el.classList.remove('active'));
+    // Section-8 Q2/Q3 체크박스 초기화
+    document.querySelectorAll('.chk-label.active').forEach(el => {
+        el.classList.remove('active');
+        const icon = el.querySelector('.chk-icon');
+        if (icon) icon.classList.add('hidden');
+    });
+    // Q4 버튼 초기화
+    document.querySelectorAll('.q4-btn.active').forEach(el => el.classList.remove('active'));
+    editingTimestamp = null;
     cur = 1; renderHeader(1); showSection(1);
 }
 
@@ -1429,6 +1461,7 @@ showSection(1);
 // ══ 결과 대시보드 JS ══════════════════════════════════
 
 let rCurHosp = null;
+let editingTimestamp = null;
 
 function showResults() {
     responses = [];
@@ -1443,6 +1476,97 @@ function showResults() {
 function showSurvey() {
     document.getElementById('resultsView').style.display = 'none';
     cur = 1; renderHeader(1); showSection(1);
+}
+
+function rDeleteEntry(timestamp) {
+    const r = responses.find(r => r.timestamp === timestamp);
+    if (!r) return;
+    if (!confirm(`${r.name || '익명'} (${r.hospital || ''}) 응답을 삭제하시겠습니까?`)) return;
+    responses = responses.filter(r => r.timestamp !== timestamp);
+    localStorage.setItem('apitoxin-responses', JSON.stringify(responses));
+    showResults();
+}
+
+function rEditEntry(timestamp) {
+    const r = responses.find(r => r.timestamp === timestamp);
+    if (!r) return;
+
+    editingTimestamp = timestamp;
+
+    // 전체 초기화 먼저
+    document.getElementById('inp-hospital').value = '';
+    document.getElementById('inp-name').value = '';
+    document.getElementById('q5-text').value = '';
+    document.querySelectorAll('.radio-label-selected').forEach(el => {
+        el.classList.remove('radio-label-selected');
+        const circle = el.querySelector('.radio-circle');
+        if (circle) { circle.style.borderColor = ''; circle.style.backgroundColor = ''; }
+    });
+    document.querySelectorAll('.scale-num-btn.active').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.chk-label.active').forEach(el => {
+        el.classList.remove('active');
+        const icon = el.querySelector('.chk-icon');
+        if (icon) icon.classList.add('hidden');
+    });
+    document.querySelectorAll('.q4-btn.active').forEach(el => el.classList.remove('active'));
+
+    // 기존 값 pre-fill
+    document.getElementById('inp-hospital').value = r.hospital || '';
+    document.getElementById('inp-name').value = r.name || '';
+    document.getElementById('q5-text').value = r.q5 || '';
+
+    // 전문분야 라디오
+    if (r.dept) {
+        document.querySelectorAll('#q-dept label').forEach(label => {
+            if (label.textContent.trim() === r.dept) {
+                pickRadioLabel(label, 'q-dept');
+            }
+        });
+    }
+
+    // Q1 스케일
+    if (r.q1) {
+        document.querySelectorAll('#q1-scale .scale-num-btn').forEach(btn => {
+            if (btn.textContent.trim() === String(r.q1)) btn.classList.add('active');
+        });
+    }
+
+    // Q2 체크박스
+    if (r.q2) {
+        const q2vals = r.q2.split(' | ').map(v => v.trim());
+        document.querySelectorAll('#q2-chk .chk-label').forEach(label => {
+            const span = label.querySelector('span');
+            if (span && q2vals.includes(span.textContent.trim())) {
+                label.classList.add('active');
+                const icon = label.querySelector('.chk-icon');
+                if (icon) icon.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Q3 체크박스
+    if (r.q3) {
+        const q3vals = r.q3.split(' | ').map(v => v.trim());
+        document.querySelectorAll('#q3-chk .chk-label').forEach(label => {
+            const span = label.querySelector('span');
+            if (span && q3vals.includes(span.textContent.trim())) {
+                label.classList.add('active');
+                const icon = label.querySelector('.chk-icon');
+                if (icon) icon.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Q4 버튼
+    if (r.q4) {
+        document.querySelectorAll('#q4-btn .q4-btn').forEach(btn => {
+            if (btn.textContent.trim() === r.q4) btn.classList.add('active');
+        });
+    }
+
+    // 결과 대시보드 닫고 7페이지로 이동
+    document.getElementById('resultsView').style.display = 'none';
+    cur = 7; renderHeader(7); showSection(7);
 }
 
 function rGroupBy() {
@@ -1462,18 +1586,6 @@ function rUpdateSidebar() {
     const vals = responses.map(r => parseInt(r.q1)).filter(v => v >= 1 && v <= 5);
     document.getElementById('r-avg').textContent = vals.length
         ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) + ' / 5' : '—';
-
-    const hlist = document.getElementById('r-hlist');
-    if (!Object.keys(grp).length) {
-        hlist.innerHTML = '<p style="font-size:12px;color:#8a9ba0;padding:8px 0;">응답 없음</p>';
-        return;
-    }
-    hlist.innerHTML = Object.keys(grp).map(h =>
-        `<button class="r-hlist-btn ${rCurHosp===h?'r-sel':''}" onclick="rShowHosp('${h.replace(/'/g,"\\'")}')">
-            <p style="font-size:13px;font-weight:700;color:#ccd6d9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h}</p>
-            <p style="font-size:11px;color:#8a9ba0;">${grp[h].length}명</p>
-        </button>`
-    ).join('');
 }
 
 function rShowOverview() {
@@ -1656,6 +1768,7 @@ function rHospTableCard(rows, grp) {
     const tableRows = rows.map(r => {
         const q2 = (r.q2||'').split(' | ').filter(Boolean).map(v=>`<span style="display:inline-block;background:#f4fce3;color:#5a8a2a;font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;margin:1px;">${v.trim()}</span>`).join('');
         const q3 = (r.q3||'').split(' | ').filter(Boolean).map(v=>`<span style="display:inline-block;background:#f8f9fa;color:#6b7280;font-size:11px;font-weight:600;padding:2px 7px;border-radius:999px;margin:1px;">${v.trim()}</span>`).join('');
+        const safeTs = r.timestamp.replace(/'/g, "\\'");
         return `<tr>
             <td style="${tdBoldStyle}">${r.hospital||'—'}</td>
             <td style="${tdStyle}">${r.name||'익명'} <span style="color:#9ca3af;font-size:11px;">${r.dept||''}</span></td>
@@ -1663,6 +1776,18 @@ function rHospTableCard(rows, grp) {
             <td style="${tdStyle}">${q2||'—'}</td>
             <td style="${tdStyle}">${q3||'—'}</td>
             <td style="${tdStyle}">${r.q4||'—'}</td>
+            <td style="${tdStyle};text-align:center;">
+                <div style="display:flex;gap:6px;justify-content:center;">
+                    <button onclick="rEditEntry('${safeTs}')"
+                        style="font-size:11px;font-weight:700;color:#8baf50;background:#f4fce3;border:1px solid #cae88d;border-radius:8px;padding:4px 10px;cursor:pointer;white-space:nowrap;">
+                        수정
+                    </button>
+                    <button onclick="rDeleteEntry('${safeTs}')"
+                        style="font-size:11px;font-weight:700;color:#ef4444;background:#fff5f5;border:1px solid #fca5a5;border-radius:8px;padding:4px 10px;cursor:pointer;white-space:nowrap;">
+                        삭제
+                    </button>
+                </div>
+            </td>
         </tr>`;
     }).join('');
 
@@ -1676,6 +1801,7 @@ function rHospTableCard(rows, grp) {
                 <th style="${thStyle}">Q2 고려사항</th>
                 <th style="${thStyle}">Q3 우려사항</th>
                 <th style="${thStyle}">Q4 시술비</th>
+                <th style="${thStyle};text-align:center;"></th>
             </tr></thead>
             <tbody>${tableRows}</tbody>
         </table>
