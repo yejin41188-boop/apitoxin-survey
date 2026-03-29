@@ -1265,14 +1265,17 @@ const TOTAL = 9;
 let cur = 1;
 let responses = JSON.parse(localStorage.getItem('apitoxin-responses') || '[]');
 
+// 페이지 순서: cur → section ID 매핑
+const PAGE_ORDER = [1, 7, 2, 3, 4, 5, 6, 8, 9];
+
 const META = {
     1: { label: 'Section 01', title: '메인 타이틀'   },
-    2: { label: 'Section 02', title: '제품 소개'      },
-    3: { label: 'Section 03', title: '적응 환자군'    },
-    4: { label: 'Section 04', title: '치료적 우위'    },
-    5: { label: 'Section 05', title: '시술 프로토콜'  },
-    6: { label: 'Section 06', title: '경쟁 환경'      },
-    7: { label: 'Section 07', title: '응답자 정보'    },
+    2: { label: 'Section 02', title: '응답자 정보'   },
+    3: { label: 'Section 03', title: '제품 소개'      },
+    4: { label: 'Section 04', title: '적응 환자군'    },
+    5: { label: 'Section 05', title: '치료적 우위'    },
+    6: { label: 'Section 06', title: '시술 프로토콜'  },
+    7: { label: 'Section 07', title: '경쟁 환경'      },
     8: { label: 'Section 08', title: '시장성 및 선호도 조사' },
     9: { label: 'Section 09', title: '조사 완료'      },
 };
@@ -1292,9 +1295,10 @@ function renderHeader(n) {
     renderDots(n);
 }
 
-function showSection(n) {
+function showSection(pageNum) {
+    const sectionId = PAGE_ORDER[pageNum - 1] || pageNum;
     document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-    const t = document.getElementById('section-'+n);
+    const t = document.getElementById('section-' + sectionId);
     if (t) {
         t.classList.add('active');
         t.style.animation = 'none';
@@ -1578,9 +1582,9 @@ function rEditEntry(timestamp) {
         });
     }
 
-    // 결과 대시보드 닫고 7페이지로 이동
+    // 결과 대시보드 닫고 2페이지(응답자 정보)로 이동
     document.getElementById('resultsView').style.display = 'none';
-    cur = 7; renderHeader(7); showSection(7);
+    cur = 2; renderHeader(2); showSection(2);
 }
 
 function rGroupBy() {
