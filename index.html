@@ -550,20 +550,20 @@
                         <p class="text-[14px] text-gray-500 leading-relaxed">고순도 정제 제형</p>
                     </div>
 
-                </div>
+                </div><!-- /grid -->
+            </div><!-- /flex-1 -->
 
-                <!-- 안내 바 (그리드 밖) -->
-                <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-3 shrink-0">
-                    <div class="flex items-center gap-3">
-                        <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
-                        <div>
-                            <span class="text-[10px] text-[#8a9ba0] font-bold tracking-widest uppercase block mb-0.5">Classification</span>
-                            <p class="text-[15px] font-bold text-white">비급여 전문처방의약품</p>
-                        </div>
+            <!-- 안내 바 (flex-1 밖 고정) -->
+            <div class="bg-[#17252a] px-5 py-4 rounded-2xl border border-white/5 flex items-center justify-between mt-3 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                    <div>
+                        <span class="text-[10px] text-[#8a9ba0] font-bold tracking-widest uppercase block mb-0.5">Classification</span>
+                        <p class="text-[15px] font-bold text-white">비급여 전문처방의약품</p>
                     </div>
-                    <div class="px-4 py-1.5 rounded-full border border-[#cae88d]/30 text-[#cae88d] text-[11px] font-bold">
-                        Rx Only
-                    </div>
+                </div>
+                <div class="px-4 py-1.5 rounded-full border border-[#cae88d]/30 text-[#cae88d] text-[11px] font-bold">
+                    Rx Only
                 </div>
             </div>
             <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
@@ -641,16 +641,16 @@
                     </div>
 
                 </div><!-- /grid -->
-
-                <!-- 안내 바 (그리드 밖) -->
-                <div class="px-5 py-4 rounded-2xl flex items-center justify-between mt-3 shrink-0" style="background:#17252a;border:1px solid rgba(202,232,141,0.15);">
-                    <div class="flex items-center gap-3">
-                        <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
-                        <p style="font-size:13px;color:#ffffff;font-weight:500;">실제 임상 데이터와 가장 부합하는 환자군을 선택해 주십시오.</p>
-                    </div>
-                    <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Clinical Priority</span>
-                </div>
             </div><!-- /flex-1 -->
+
+            <!-- 안내 바 (flex-1 밖 고정) -->
+            <div class="px-5 py-4 rounded-2xl flex items-center justify-between mt-3 shrink-0" style="background:#17252a;border:1px solid rgba(202,232,141,0.15);">
+                <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#cae88d]" style="box-shadow:0 0 6px rgba(202,232,141,0.6);"></div>
+                    <p style="font-size:13px;color:#ffffff;font-weight:500;">실제 임상 데이터와 가장 부합하는 환자군을 선택해 주십시오.</p>
+                </div>
+                <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Clinical Priority</span>
+            </div>
             <div class="mt-auto flex justify-between items-center pt-4 border-t border-gray-100">
                 <button class="flex items-center gap-2 text-gray-400 hover:text-gray-600 transition-colors font-bold text-[15px]" onclick="goPrev()">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
@@ -1215,8 +1215,10 @@
 
     </div><!-- /white card -->
 
-    <!-- ══ 결과 대시보드 (같은 메인 영역 안, 토글로 전환) ══ -->
-    <div id="resultsView">
+</div><!-- /mainArea -->
+
+<!-- ══ 결과 대시보드 (mainArea 밖, body 직속) ══ -->
+<div id="resultsView" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:100; background:#f8f9fa;">
         <!-- 결과 사이드바 -->
         <div class="r-sidebar">
             <div class="mb-7">
@@ -1269,12 +1271,11 @@
             </div>
             <div id="r-main"></div>
         </div>
-    </div>
 
     <div class="absolute bottom-8 right-12 text-[#e5e7eb] text-[10px] font-medium tracking-[1em] uppercase pointer-events-none whitespace-nowrap">
         초 당 약 공 공 업
     </div>
-</div>
+</div><!-- /resultsView -->
 
 <script>
 const TOTAL = 9;
@@ -1396,15 +1397,14 @@ function exportCSV() {
         [r.timestamp,r.hospital,r.name,r.dept,r.q1,r.q2,r.q3,r.q4,r.q5]
         .map(v => `"${(v||'').replace(/"/g,'""')}"`)
     );
-    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
+    const csv = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const dataUri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
     const a = document.createElement('a');
-    a.href = url;
+    a.href = dataUri;
     a.download = `apitoxin-research-${new Date().toISOString().slice(0,10)}.csv`;
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+    setTimeout(() => document.body.removeChild(a), 200);
 }
 
 function resetSurvey() {
@@ -1467,25 +1467,15 @@ let rCurHosp = null;
 function showResults() {
     responses = [];
     try { responses = JSON.parse(localStorage.getItem('apitoxin-responses') || '[]'); } catch(e) {}
-    document.getElementById('mainCard').style.display = 'none';
-    document.getElementById('mainArea').style.padding = '0';
-    document.getElementById('mainArea').style.alignItems = 'stretch';
-    document.getElementById('mainArea').style.overflow = 'hidden';
     const rv = document.getElementById('resultsView');
     rv.style.display = 'flex';
-    rv.style.flex = '1';
-    rv.style.height = '100%';
     rCurHosp = null;
     rUpdateSidebar();
     rShowOverview();
 }
 
 function showSurvey() {
-    document.getElementById('mainCard').style.display = 'flex';
     document.getElementById('resultsView').style.display = 'none';
-    document.getElementById('mainArea').style.padding = '';
-    document.getElementById('mainArea').style.alignItems = '';
-    document.getElementById('mainArea').style.overflow = '';
     cur = 1; renderHeader(1); showSection(1);
 }
 
@@ -1681,19 +1671,15 @@ function rDlCSV(rows, filename) {
         [r.timestamp,r.hospital,r.name,r.dept,r.q1,r.q2,r.q3,r.q4,r.q5]
         .map(v => `"${(v||'').replace(/"/g,'""')}"`)
     );
-    const csv = [headers.join(','), ...body.map(r=>r.join(','))].join('\n');
-    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    // iOS Safari 호환
+    const csv = '\uFEFF' + [headers.join(','), ...body.map(r=>r.join(','))].join('\n');
+    // iOS Safari 호환: data URI 방식
+    const dataUri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
     const a = document.createElement('a');
-    a.href = url;
+    a.href = dataUri;
     a.download = filename;
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 200);
+    setTimeout(() => document.body.removeChild(a), 200);
 }
 </script>
 </body>
