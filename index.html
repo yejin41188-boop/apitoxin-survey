@@ -14,6 +14,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -151,6 +153,28 @@
 
         .stat-box { background: #f8f9fa; border: 1px solid #f0f0f0; border-radius: 16px; padding: 20px 28px; text-align: center; }
         .req { color: #8baf50; margin-left: 2px; }
+
+        /* section-7 전용 폰트 (1페이지: 기본 정보 입력) */
+        #section-7 * {
+            font-family: 'Inter', 'Pretendard', sans-serif !important;
+            letter-spacing: -0.025em !important;
+        }
+        /* 오른쪽 섹션 타이틀 굵기 */
+        #section-7 ~ * #sectionTitle,
+        #sectionTitle { font-weight: 600; }
+        /* 입력창 placeholder 고정 */
+        #section-7 input::placeholder {
+            font-size: 14px !important;
+            font-family: 'Inter', 'Pretendard', sans-serif !important;
+        }
+        /* 다음으로 버튼 정중앙 정렬 */
+        #section-7 .btn-next {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            padding: 15px 28px !important;
+        }
 
         /* 8. 라디오 레이블 */
         .radio-label-selected { background-color: #f8f9fa; border-color: #cae88d !important; color: #17252a; font-weight: 700; }
@@ -459,7 +483,7 @@
         <div class="flex justify-between items-start mb-[18px] shrink-0">
             <div>
                 <p id="sectionLabel" class="text-[13px] text-gray-400 font-bold tracking-[0.2em] uppercase mb-3">Section 01</p>
-                <h2 id="sectionTitle" class="font-serif text-[36px] text-gray-900">메인 타이틀</h2>
+                <h2 id="sectionTitle" class="font-serif text-[36px] text-gray-900">기본 정보 입력</h2>
             </div>
             <div class="flex flex-col items-end">
                 <div class="text-[18px] mb-3">
@@ -494,7 +518,11 @@
                 </div>
                 <span class="text-[10px] text-[#cae88d] font-bold tracking-widest uppercase">Research Start</span>
             </div>
-            <div class="mt-auto flex justify-end pt-5">
+            <div class="mt-auto flex justify-between items-center pt-5">
+                <button class="text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-2 font-bold text-[15px]" onclick="goPrev()">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    이전
+                </button>
                 <button class="btn-next" onclick="goNext()">
                     조사 참여하기
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
@@ -1269,7 +1297,7 @@ let responses = JSON.parse(localStorage.getItem('apitoxin-responses') || '[]');
 const PAGE_ORDER = [7, 1, 2, 3, 4, 5, 6, 8, 9];
 
 const META = {
-    1: { label: 'Section 01', title: '응답자 정보'   },
+    1: { label: 'Section 01', title: '기본 정보 입력' },
     2: { label: 'Section 02', title: '메인 타이틀'   },
     3: { label: 'Section 03', title: '제품 소개'      },
     4: { label: 'Section 04', title: '적응 환자군'    },
@@ -1493,6 +1521,14 @@ function showResults() {
 
 function showSurvey() {
     document.getElementById('resultsView').style.display = 'none';
+    // 응답자 정보 초기화
+    document.getElementById('inp-hospital').value = '';
+    document.getElementById('inp-name').value = '';
+    document.querySelectorAll('.radio-label-selected').forEach(el => {
+        el.classList.remove('radio-label-selected');
+        const circle = el.querySelector('.radio-circle');
+        if (circle) { circle.style.borderColor = ''; circle.style.backgroundColor = ''; }
+    });
     cur = 1; renderHeader(1); showSection(1);
 }
 
